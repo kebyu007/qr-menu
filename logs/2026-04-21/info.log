@@ -1,0 +1,36 @@
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T05:12:26.489Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-21T05:12:46.415Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-21T05:12:50.852Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-21T05:14:11.801Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-21T05:16:31.081Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-21T05:16:31.611Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-21T05:16:32.028Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":409,\"name\":\"Conflict Exception\"}","timestamp":"2026-04-21T05:16:36.774Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":403,\"name\":\"Forbidden Exception\"}","timestamp":"2026-04-21T05:17:34.472Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-21T05:17:56.853Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-21T05:19:09.983Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T05:23:55.609Z"}
+{"level":"error","message":"{\"stringValue\":\"\\\"delete\\\"\",\"valueType\":\"string\",\"kind\":\"ObjectId\",\"value\":\"delete\",\"path\":\"_id\",\"reason\":{},\"name\":\"CastError\",\"message\":\"Cast to ObjectId failed for value \\\"delete\\\" (type string) at path \\\"_id\\\" for model \\\"Post\\\"\"}","timestamp":"2026-04-21T05:26:01.302Z"}
+{"level":"error","message":"{\"stringValue\":\"\\\"delete\\\"\",\"valueType\":\"string\",\"kind\":\"ObjectId\",\"value\":\"delete\",\"path\":\"post\",\"reason\":{},\"name\":\"CastError\",\"message\":\"Cast to ObjectId failed for value \\\"delete\\\" (type string) at path \\\"post\\\" for model \\\"Comment\\\"\"}","timestamp":"2026-04-21T05:26:01.318Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T05:31:28.493Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T05:37:14.045Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-21T05:37:38.842Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-21T05:37:53.149Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-21T05:37:57.925Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T05:42:19.803Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T05:42:19.810Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-21T05:43:05.097Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T05:49:06.452Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T05:49:11.836Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T05:49:13.497Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T05:49:18.110Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T05:49:18.118Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-21T05:49:38.697Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-21T05:49:44.831Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T05:55:33.866Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T05:55:44.749Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T05:55:44.757Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T06:06:23.817Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-21T06:08:35.268Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-21T06:08:38.938Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-21T06:49:20.633Z"}

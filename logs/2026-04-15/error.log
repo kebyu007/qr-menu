@@ -1,0 +1,10 @@
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-15T12:20:09.224Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":401,\"name\":\"Unauthorized Exception\"}","timestamp":"2026-04-15T12:20:09.661Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-15T12:21:02.881Z"}
+{"level":"error","message":"{\"stringValue\":\"\\\"comments\\\"\",\"valueType\":\"string\",\"kind\":\"ObjectId\",\"value\":\"comments\",\"path\":\"_id\",\"reason\":{},\"name\":\"CastError\",\"message\":\"Cast to ObjectId failed for value \\\"comments\\\" (type string) at path \\\"_id\\\" for model \\\"Post\\\"\"}","timestamp":"2026-04-15T12:51:44.312Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":403,\"name\":\"Forbidden Exception\"}","timestamp":"2026-04-15T18:06:11.098Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":403,\"name\":\"Forbidden Exception\"}","timestamp":"2026-04-15T18:06:12.663Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":403,\"name\":\"Forbidden Exception\"}","timestamp":"2026-04-15T18:06:17.042Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":403,\"name\":\"Forbidden Exception\"}","timestamp":"2026-04-15T18:07:14.655Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":403,\"name\":\"Forbidden Exception\"}","timestamp":"2026-04-15T18:07:22.892Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":403,\"name\":\"Forbidden Exception\"}","timestamp":"2026-04-15T18:07:30.081Z"}

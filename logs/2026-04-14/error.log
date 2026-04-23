@@ -1,0 +1,16 @@
+{"level":"error","message":"{\"errno\":-2,\"code\":\"ENOENT\",\"syscall\":\"open\",\"path\":\"/home/kebyu/Desktop/blog project/src/views/layouts/main.hbs\"}","timestamp":"2026-04-14T09:48:00.982Z"}
+{"level":"error","message":"{\"errno\":-2,\"code\":\"ENOENT\",\"syscall\":\"open\",\"path\":\"/home/kebyu/Desktop/blog project/src/views/layouts/main.hbs\"}","timestamp":"2026-04-14T09:48:01.112Z"}
+{"level":"error","message":"{\"errno\":-2,\"code\":\"ENOENT\",\"syscall\":\"open\",\"path\":\"/home/kebyu/Desktop/blog project/src/views/layouts/main.hbs\"}","timestamp":"2026-04-14T09:48:51.167Z"}
+{"level":"error","message":"{\"errno\":-2,\"code\":\"ENOENT\",\"syscall\":\"open\",\"path\":\"/home/kebyu/Desktop/blog project/src/views/layouts/main.hbs\"}","timestamp":"2026-04-14T09:48:51.224Z"}
+{"level":"error","message":"{\"errno\":-2,\"code\":\"ENOENT\",\"syscall\":\"open\",\"path\":\"/home/kebyu/Desktop/blog project/src/views/layouts/main.hbs\"}","timestamp":"2026-04-14T09:49:23.854Z"}
+{"level":"error","message":"{\"errno\":-2,\"code\":\"ENOENT\",\"syscall\":\"open\",\"path\":\"/home/kebyu/Desktop/blog project/src/views/layouts/main.hbs\"}","timestamp":"2026-04-14T09:49:23.913Z"}
+{"level":"error","message":"{\"message\":\"Missing helper: \\\"times\\\"\",\"name\":\"Error\"}","timestamp":"2026-04-14T10:30:11.126Z"}
+{"level":"error","message":"{\"message\":\"Missing helper: \\\"times\\\"\",\"name\":\"Error\"}","timestamp":"2026-04-14T10:30:11.244Z"}
+{"level":"error","message":"{\"message\":\"Missing helper: \\\"times\\\"\",\"name\":\"Error\"}","timestamp":"2026-04-14T10:33:40.990Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-14T10:35:43.436Z"}
+{"level":"error","message":"{\"message\":\"Missing helper: \\\"times\\\"\",\"name\":\"Error\"}","timestamp":"2026-04-14T10:35:43.537Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-14T10:42:08.031Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-14T10:42:17.876Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-14T10:42:23.597Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-14T10:45:38.611Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-14T10:46:17.287Z"}
