@@ -1,0 +1,37 @@
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-23T23:06:34.345Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-23T23:06:49.398Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-23T23:07:37.987Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-23T23:07:51.820Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-23T23:14:22.400Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-23T23:16:20.642Z"}
+{"level":"error","message":"{\"view\":{\"defaultEngine\":\"hbs\",\"ext\":\".hbs\",\"name\":\"/forgot-password\",\"root\":\"/home/kebyu/Desktop/qr-menu/src/views\"}}","timestamp":"2026-04-23T23:16:25.559Z"}
+{"level":"error","message":"{\"view\":{\"defaultEngine\":\"hbs\",\"ext\":\".hbs\",\"name\":\"/forgot-password\",\"root\":\"/home/kebyu/Desktop/qr-menu/src/views\"}}","timestamp":"2026-04-23T23:16:34.446Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:16:47.769Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-23T23:16:53.294Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:16:54.542Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:16:57.332Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-23T23:18:27.611Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-23T23:18:30.810Z"}
+{"level":"error","message":"{\"view\":{\"defaultEngine\":\"hbs\",\"ext\":\".hbs\",\"name\":\"/forgot-password\",\"root\":\"/home/kebyu/Desktop/qr-menu/src/views\"}}","timestamp":"2026-04-23T23:18:34.512Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:44:50.476Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:46:57.881Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:47:52.623Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:50:44.825Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:50:45.404Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:50:45.611Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:50:45.821Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:50:46.018Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:50:46.207Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:50:46.388Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:50:46.588Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-23T23:50:46.804Z"}
+{"level":"error","message":"{\"view\":{\"defaultEngine\":\"hbs\",\"ext\":\".hbs\",\"name\":\"/login\",\"root\":\"/home/kebyu/Desktop/qr-menu/src/views\"}}","timestamp":"2026-04-24T00:00:41.754Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":409,\"name\":\"Conflict Exception\"}","timestamp":"2026-04-24T00:06:35.345Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":409,\"name\":\"Conflict Exception\"}","timestamp":"2026-04-24T00:06:53.365Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":409,\"name\":\"Conflict Exception\"}","timestamp":"2026-04-24T00:07:37.180Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":409,\"name\":\"Conflict Exception\"}","timestamp":"2026-04-24T00:08:12.877Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":409,\"name\":\"Conflict Exception\"}","timestamp":"2026-04-24T00:08:24.245Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-24T04:50:48.066Z"}
+{"level":"error","message":"{}","timestamp":"2026-04-24T04:53:42.821Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-24T04:58:26.474Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-24T05:07:00.626Z"}

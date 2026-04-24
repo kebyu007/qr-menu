@@ -1,6 +1,7 @@
 import { config } from "dotenv";
 import { BlackholedSignatureError, ExpiredSignatureError } from "signed";
 import { ConflictException } from "../exceptions/conflict.exception.js";
+import { signature } from "../configs/signature.config.js";
 
 config({ quiet: true });
 
@@ -8,7 +9,7 @@ const BASE_URL = process.env.BASE_URL;
 
 export const VerifySignatureMiddleware = (req, res, next) => {
   try {
-    const fullUrl = `${BASE_URL}/auth${req.url}`;
+    const fullUrl = `${BASE_URL}${req.url}`;
 
     signature.verify(fullUrl);
     next();

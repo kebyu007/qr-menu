@@ -117,7 +117,6 @@ class UserController {
     }
   };
 
-  // ✅ Yangi: ADMIN - user rolini o'zgartirish
   changeRole = async (req, res, next) => {
     try {
       const { role } = req.body;
@@ -131,7 +130,6 @@ class UserController {
     }
   };
 
-  // ✅ Yangi: ADMIN - user o'chirish
   deleteUser = async (req, res, next) => {
     try {
       const user = await this.#_UserModel.findByIdAndDelete(req.params.id);
@@ -142,7 +140,6 @@ class UserController {
     }
   };
 
-  // ✅ byName - params dan olish (router /:name ishlatilgan)
 }
 
 export default new UserController();

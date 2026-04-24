@@ -1,0 +1,40 @@
+<section class="hero">
+  <div>
+    <h1 class="page-title">Restaurant Menu</h1>
+    <p class="page-subtitle">QR orqali kirgan foydalanuvchilar uchun tez va qulay menyu.</p>
+  </div>
+  <div class="hero-actions">
+    <a class="btn btn-soft" href="/feedback">Write Feedback</a>
+  </div>
+</section>
+
+<section class="card panel">
+  <h2>Filter Menu</h2>
+  <form method="GET" action="/menu">
+    <label for="category_id">Filter by category</label>
+    <select id="category_id" name="category_id">
+      <option value="">All</option>
+      {{#each categories}}
+        <option value="{{this._id}}">{{this.name}}</option>
+      {{/each}}
+    </select>
+    <button class="btn" type="submit">Apply</button>
+  </form>
+</section>
+
+<section class="grid">
+  {{#each products}}
+    <article class="card product-card">
+      <h3>{{this.name}}</h3>
+      <p><span class="badge">{{this.category.name}}</span></p>
+      <p><strong>Price:</strong> {{this.price}}</p>
+      {{#if this.description}}
+        <p class="muted">{{this.description}}</p>
+      {{/if}}
+      <p><a href="/feedback?product_id={{this._id}}">Leave feedback</a></p>
+      {{#if this.imageUrl}}
+        <img src="{{this.imageUrl}}" alt="{{this.name}}" />
+      {{/if}}
+    </article>
+  {{/each}}
+</section>

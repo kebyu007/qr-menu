@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 export const UserSchema = new mongoose.Schema(
   {
     name: { type: String, min: 3, required: true },
-    age: { type: Number, min: 12, required: true },
+    age: { type: Number, min: 12 },
     email: { type: String, unique: true, required: true },
     password: { type: String, min: 6 },
     role: {

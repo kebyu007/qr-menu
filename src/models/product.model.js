@@ -1,4 +1,3 @@
-import { required } from "joi";
 import mongoose from "mongoose";
 
 export const ProductSchema = new mongoose.Schema(
@@ -16,8 +15,13 @@ export const ProductSchema = new mongoose.Schema(
     },
     category: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: "category",
+      ref: "Category",
       required: true,
+    },
+    description: {
+      type: String,
+      default: "",
+      maxlength: 500,
     },
     imageUrl: {
       type: String,

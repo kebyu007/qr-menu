@@ -1,8 +1,6 @@
 import jwtConfig from "../configs/jwt.config.js";
 import jwt from "jsonwebtoken";
-import { BadRequestException } from "../exceptions/bad-request.exception.js";
 import { config } from "dotenv";
-import { UnauthorizedException } from "../exceptions/unathorized.exception.js";
 
 config({ quiet: true });
 
@@ -13,25 +11,41 @@ export const Protected = (isProtected) => {
       return next();
     }
 
-    const { authorization } = req.headers;
-
-    if (!authorization) throw new BadRequestException("Token not given");
-
-    const token = authorization.split(" ")[1];
+    const token = req.cookies?.accessToken;
+    if (!token) return res.redirect("/login");
 
     try {
       const payload = jwt.verify(token, jwtConfig.accessKey);
-
       req.user = payload;
-
       next();
     } catch (error) {
       if (error instanceof jwt.TokenExpiredError) {
-        throw new UnauthorizedException("Token expired");
+        const refreshToken = req.cookies?.refreshToken;
+        if (!refreshToken) return res.redirect("/login");
+
+        try {
+          const payload = jwt.verify(refreshToken, jwtConfig.refreshKey);
+          const newAccessToken = jwt.sign(
+            { id: payload.id, role: payload.role },
+            jwtConfig.accessKey,
+            { expiresIn: jwtConfig.accessEx }
+          );
+          res.cookie("accessToken", newAccessToken, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            path: "/",
+            maxAge: 15 * 60 * 1000
+          });
+          req.user = payload;
+          return next();
+        } catch {
+          return res.redirect("/login");
+        }
       }
 
       if (error instanceof jwt.JsonWebTokenError) {
-        throw new BadRequestException("Token is invalid");
+        return res.redirect("/login");
       }
 
       next(error);

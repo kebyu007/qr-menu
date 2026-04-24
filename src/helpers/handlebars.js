@@ -6,4 +6,10 @@ export const handlebarsHelpers = {
     }
     return accum;
   },
+  eq: function (a, b) {
+    if (a === undefined || b === undefined || a === null || b === null) {
+      return false;
+    }
+    return String(a) === String(b);
+  },
 };

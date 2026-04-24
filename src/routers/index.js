@@ -1,17 +1,14 @@
 import { Router } from "express";
 import authRouter from "./auth.router.js";
-import postRouter from "./post.router.js";
-import userRouter from "./user.router.js";
-import commentRouter from "./comment.router.js";
-import likeRouter from "./likes.router.js";
+import categoryRouter from "./category.router.js";
+import productRouter from "./product.router.js";
+import feedbackRouter from "./feedback.router.js";
 
 const apiRouter = Router();
 
-apiRouter
-  .use("/auth", authRouter)
-  .use("/posts", postRouter)
-  .use("/users", userRouter)
-  .use("/comments", commentRouter)
-  .use("/likes", likeRouter);
+apiRouter.use("/auth", authRouter);
+apiRouter.use("/categories", categoryRouter);
+apiRouter.use("/products", productRouter);
+apiRouter.use("/feedback", feedbackRouter);
 
 export default apiRouter;

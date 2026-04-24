@@ -10,7 +10,7 @@ const CategorySchema = new mongoose.Schema(
     avatarUrl: { type: String, default: null },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "User",
       required: true,
     },
     updatedBy: {
@@ -26,7 +26,7 @@ const CategorySchema = new mongoose.Schema(
       default: null,
     },
   },
-  { collection: "category", timestamps: true, versionKey: false },
+  { collection: "categories", timestamps: true, versionKey: false },
 );
 
 export const Category = mongoose.model("Category", CategorySchema);

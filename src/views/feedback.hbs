@@ -1,0 +1,33 @@
+<section class="hero">
+  <div>
+    <h1 class="page-title">Feedback Center</h1>
+    <p class="page-subtitle">Taklif yoki shikoyat yuboring, biz tezkor ko‘rib chiqamiz.</p>
+  </div>
+</section>
+
+<section class="card panel">
+  <h2>Send Feedback</h2>
+  <form action="/api/feedback" method="POST" enctype="multipart/form-data">
+    <label for="product_id">Product</label>
+    <select id="product_id" name="product_id" required>
+      <option value="">Select product</option>
+      {{#each products}}
+        <option value="{{this._id}}" {{#if (eq this._id ../selectedProduct)}}selected{{/if}}>{{this.name}}</option>
+      {{/each}}
+    </select>
+
+    <label for="type">Type</label>
+    <select id="type" name="type">
+      <option value="review">Review</option>
+      <option value="complaint">Complaint</option>
+    </select>
+
+    <label for="message">Message</label>
+    <textarea class="input" id="message" name="message" rows="5" required></textarea>
+
+    <label for="image">Image (optional)</label>
+    <input class="input" id="image" type="file" name="image" />
+
+    <button class="btn" type="submit">Submit</button>
+  </form>
+</section>

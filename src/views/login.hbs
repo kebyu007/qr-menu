@@ -1,0 +1,22 @@
+<section class="auth-wrap">
+  <div class="auth-header">
+    <div>
+      <h1 class="page-title">Welcome Back</h1>
+      <p class="page-subtitle">Bitta login: admin ham, oddiy user ham shu formdan kiradi.</p>
+    </div>
+  </div>
+  <section class="card auth-card">
+    <h2>Login</h2>
+    <form action="/api/auth/login" method="POST">
+      <label for="email">Email</label>
+      <input class="input" type="email" name="email" id="email" required />
+      <label for="password">Password</label>
+      <input class="input" type="password" name="password" id="password" required />
+      <button class="btn" type="submit">Login</button>
+    </form>
+  </section>
+  <div class="auth-links">
+    <p>Don't you have an account? <a href="/register">Register</a></p>
+    <p><a href="/forgot-password">Forgot password?</a></p>
+  </div>
+</section>

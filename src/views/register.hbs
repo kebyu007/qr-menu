@@ -1,0 +1,23 @@
+<section class="auth-wrap">
+  <div class="auth-header">
+    <h1 class="page-title">Create Account</h1>
+    <p class="page-subtitle">Ro‘yxatdan o‘ting va feedback yuborishni boshlang.</p>
+  </div>
+  <section class="card auth-card">
+    <h2>Register</h2>
+    <form action="/api/auth/register" method="POST">
+      <label for="name">Name</label>
+      <input class="input" type="text" name="name" id="name" required />
+      <label for="age">Age</label>
+      <input class="input" type="number" name="age" id="age" required />
+      <label for="email">Email</label>
+      <input class="input" type="email" name="email" id="email" required />
+      <label for="password">Password</label>
+      <input class="input" type="password" name="password" id="password" required />
+      <button class="btn" type="submit">Register</button>
+    </form>
+  </section>
+  <div class="auth-links">
+    <p>Do you have an account? <a href="/login">Login</a></p>
+  </div>
+</section>

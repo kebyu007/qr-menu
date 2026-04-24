@@ -9,6 +9,7 @@ import { NotFoundException } from "../exceptions/not-found.exception.js";
 import { BadRequestException } from "../exceptions/bad-request.exception.js";
 import { sendEmail } from "../helpers/mail.helper.js";
 import adminConfig from "../configs/admin.config.js";
+import logger from "../helpers/logger.helper.js";
 
 config({ quiet: true });
 const BASE_URL = process.env.BASE_URL;
@@ -25,7 +26,9 @@ class AuthController {
 
       const existingUser = await this.#_UserModel.findOne({ email });
       if (existingUser) {
-        throw new ConflictException(`Given email: ${email} already exists`);
+        return res.render("login", {
+          error: `Given email: ${email} already exists`,
+        });
       }
 
       const hPass = await this.#_hashPass(password);
@@ -47,10 +50,22 @@ class AuthController {
         role: newUser.role,
       });
 
-      res.send({
-        success: true,
-        data: { accessToken, refreshToken },
+      res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        path: "/",
+        maxAge: 15 * 60 * 1000,
       });
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
+      res.redirect("/login");
     } catch (error) {
       next(error);
     }
@@ -61,16 +76,20 @@ class AuthController {
       const { email, password } = req.body;
 
       const existingUser = await this.#_UserModel.findOne({ email });
+
       if (!existingUser) {
-        throw new NotFoundException("Email not exists");
+        logger.info(JSON.stringify({ event: "login_attempt", email, success: false }));
+        return res.render("login", { error: "Email topilmadi" });
       }
 
       const comparePassword = await this.#_comparePass(
         password,
         existingUser.password,
       );
+
       if (!comparePassword) {
-        throw new ConflictException("Password is incorrect");
+        logger.info(JSON.stringify({ event: "login_attempt", email, success: false }));
+        return res.render("login", { error: "Parol noto'g'ri" });
       }
 
       const accessToken = this.#_accessToken({
@@ -82,10 +101,22 @@ class AuthController {
         role: existingUser.role,
       });
 
-      res.send({
-        success: true,
-        data: { accessToken, refreshToken },
+      res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        path: "/",
+        maxAge: 15 * 60 * 1000,
       });
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+      logger.info(JSON.stringify({ event: "login_attempt", email, success: true }));
+      res.redirect(existingUser.role === "ADMIN" ? "/admin/dashboard" : "/profile");
     } catch (error) {
       next(error);
     }
@@ -93,7 +124,7 @@ class AuthController {
 
   refresh = async (req, res, next) => {
     try {
-      const { refreshToken } = req.body;
+      const refreshToken = req.body.refreshToken || req.cookies.refreshToken;
       if (!refreshToken) throw new BadRequestException("Token not given");
 
       const payload = jwt.verify(refreshToken, jwtConfig.refreshKey);
@@ -102,6 +133,13 @@ class AuthController {
         role: payload.role,
       });
 
+      res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        path: "/",
+        maxAge: 15 * 60 * 1000,
+      });
       res.send({ success: true, data: { accessToken } });
     } catch (error) {
       next(error);
@@ -115,7 +153,7 @@ class AuthController {
       if (!existing) throw new NotFoundException("User not found");
 
       const signedUrl = signature.sign(
-        `${BASE_URL}/api/auth/reset-password?userId=${existing._id}`,
+        `${BASE_URL}/reset-password?userId=${existing._id}`, // ✅ /api/auth yo'q
         { ttl: 300 },
       );
       sendEmail(
@@ -123,7 +161,9 @@ class AuthController {
         "Forgot password request",
         `Reset Password link: ${signedUrl}`,
       );
-      res.status(204).send();
+      res.render(req.url.split("/").at(-1), {
+        message: "Reset password link sent to your email.",
+      });
     } catch (error) {
       next(error);
     }
@@ -139,7 +179,9 @@ class AuthController {
         { _id: userId },
         { password: await this.#_hashPass(password) },
       );
-      res.status(204).send();
+      res.render("login", {
+        message: "Your password was updated, Login now",
+      });
     } catch (error) {
       next(error);
     }
@@ -159,20 +201,31 @@ class AuthController {
   };
 
   seedAdmins = async () => {
-    const admins = [
-      { name: "admin", email: adminConfig.email1, password: adminConfig.pass1 },
-    ];
-    for (let a of admins) {
+    const admins = [{ name: "admin", age: 25, email: adminConfig.email1, password: adminConfig.pass1 }];
+
+    for (const a of admins) {
+      if (!a.email || !a.password) continue;
+
       const existingUser = await this.#_UserModel.findOne({ email: a.email });
       if (!existingUser) {
         await this.#_UserModel.create({
-          ...a,
+          name: a.name,
+          age: a.age,
+          email: a.email,
           role: "ADMIN",
           password: await this.#_hashPass(a.password),
         });
+        continue;
+      }
+
+      const isSamePassword = await this.#_comparePass(a.password, existingUser.password);
+      if (existingUser.role !== "ADMIN" || !isSamePassword) {
+        existingUser.role = "ADMIN";
+        existingUser.password = await this.#_hashPass(a.password);
+        await existingUser.save();
       }
     }
-    console.log("ADMINS SEEDED");
+    console.log("ADMINS SEEDED/UPDATED");
   };
 
   #_hashPass = async (pass) => await bcryct.hash(pass, 10);
