@@ -1,39 +1,33 @@
 import { log } from "node:console";
 import logger from "../helpers/logger.helper.js";
 
+const API_TO_VIEW = {
+  "/api/auth/login": "/login",
+  "/api/auth/register": "/register",
+  "/api/auth/forgot-password": "/forgot-password",
+  "/api/auth/reset-password": "/reset-password",
+  "/admin/categories": "/admin/categories",
+  "/admin/products": "/admin/products",
+  "/admin/feedback": "/admin/feedback",
+  "/feedback": "/feedback",
+};
+
 export const ErrorHandlerMiddleware = (err, req, res, __) => {
   logger.error(JSON.stringify(err));
   log(err);
-  const isApi = req.originalUrl.startsWith("/api/");
-  const status = err.status || 500;
-  const acceptsHtml = req.accepts("html");
-  const isFormSubmit = req.method !== "GET" && req.is("application/x-www-form-urlencoded");
 
-  const redirectWithError = (fallbackPath, message) => {
-    const referer = req.get("referer") || fallbackPath;
-    const separator = referer.includes("?") ? "&" : "?";
-    return res.redirect(`${referer}${separator}error=${encodeURIComponent(message)}`);
-  };
+  const message = err.message || "Internal server error";
+  const urlPath = req.url.split("?")[0];
+  const existingQuery = req.url.includes("?") ? "&" + req.url.split("?")[1] : "";
 
-  if (err.isException) {
-    if (isApi && acceptsHtml && isFormSubmit) {
-      return redirectWithError("/login", err.message);
-    }
-    if (isApi) {
-      return res.status(status).json({ success: false, message: err.message });
-    }
+  const redirectTo = API_TO_VIEW[urlPath] || urlPath;
 
-    return res.status(status).render("login", { error: err.message });
+  // reset-password uchun userId va signed saqlash
+  if (urlPath === "/api/auth/reset-password") {
+    const { userId, signed } = req.query;
+    const extra = userId ? `&userId=${userId}&signed=${signed}` : "";
+    return res.redirect(`${redirectTo}?error=${encodeURIComponent(message)}${extra}`);
   }
 
-  if (isApi && acceptsHtml && isFormSubmit) {
-    return redirectWithError("/login", "Internal server error");
-  }
-  if (isApi) {
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal server error" });
-  }
-
-  return res.status(500).render("login", { error: "Internal server error" });
+  return res.redirect(`${redirectTo}?error=${encodeURIComponent(message)}`);
 };

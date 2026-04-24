@@ -1,33 +1,112 @@
-<section class="hero">
-  <div>
-    <h1 class="page-title">Feedback Center</h1>
-    <p class="page-subtitle">Taklif yoki shikoyat yuboring, biz tezkor ko‘rib chiqamiz.</p>
+<style>
+  .page-nav {
+    background: rgba(250,246,240,0.95); backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem; display: flex; align-items: center;
+    justify-content: space-between; height: 64px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-brand { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--brown); text-decoration: none; }
+  .nav-brand span { color: var(--gold); }
+  .nav-links a { padding: 0.5rem 1rem; border-radius: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: all 0.2s; }
+  .nav-links a:hover { background: var(--border); color: var(--brown); }
+
+  .feedback-page { min-height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; padding: 3rem 1.5rem; }
+  .feedback-box { width: 100%; max-width: 580px; animation: fadeUp 0.6s ease; }
+  .feedback-header { text-align: center; margin-bottom: 2.5rem; }
+  .feedback-icon { font-size: 3rem; margin-bottom: 1rem; }
+  .feedback-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--brown); }
+  .feedback-sub { color: var(--text-muted); margin-top: 0.5rem; }
+
+  .feedback-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; box-shadow: var(--shadow); }
+
+  /* Star rating */
+  .star-rating { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+  .star-rating input { display: none; }
+  .star-rating label {
+    font-size: 2rem; cursor: pointer;
+    color: var(--border); transition: color 0.15s;
+    line-height: 1;
+  }
+  .star-rating label:hover,
+  .star-rating label:hover ~ label,
+  .star-rating input:checked ~ label { color: var(--gold); }
+  .star-rating { flex-direction: row-reverse; justify-content: flex-end; }
+  .star-rating input:checked ~ label,
+  .star-rating label:hover,
+  .star-rating label:hover ~ label { color: var(--gold); }
+
+  .img-upload {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer; transition: border-color 0.2s;
+  }
+  .img-upload:hover { border-color: var(--brown-light); }
+  .img-upload input { display: none; }
+  .img-upload-text { color: var(--text-muted); font-size: 0.9rem; }
+</style>
+
+<nav class="page-nav">
+  <a href="/menu" class="nav-brand">QR<span>Menu</span></a>
+  <div class="nav-links">
+    <a href="/menu">← Menuga qaytish</a>
   </div>
-</section>
+</nav>
 
-<section class="card panel">
-  <h2>Send Feedback</h2>
-  <form action="/api/feedback" method="POST" enctype="multipart/form-data">
-    <label for="product_id">Product</label>
-    <select id="product_id" name="product_id" required>
-      <option value="">Select product</option>
-      {{#each products}}
-        <option value="{{this._id}}" {{#if (eq this._id ../selectedProduct)}}selected{{/if}}>{{this.name}}</option>
-      {{/each}}
-    </select>
+<div class="feedback-page">
+  <div class="feedback-box">
+    <div class="feedback-header">
+      <div class="feedback-icon">💬</div>
+      <div class="feedback-title">Fikringizni bildiring</div>
+      <div class="feedback-sub">Sizning fikringiz bizga juda muhim</div>
+    </div>
 
-    <label for="type">Type</label>
-    <select id="type" name="type">
-      <option value="review">Review</option>
-      <option value="complaint">Complaint</option>
-    </select>
+    {{#if error}}<div class="alert alert-error">{{error}}</div>{{/if}}
+    {{#if message}}<div class="alert alert-success">✓ {{message}}</div>{{/if}}
 
-    <label for="message">Message</label>
-    <textarea class="input" id="message" name="message" rows="5" required></textarea>
+    <div class="feedback-card">
+      <form action="/feedback" method="POST" enctype="multipart/form-data">
 
-    <label for="image">Image (optional)</label>
-    <input class="input" id="image" type="file" name="image" />
+        <div class="form-group">
+          <label class="form-label">Taom tanlang</label>
+          <select name="product" class="form-control" required>
+            <option value="">— Tanlang —</option>
+            {{#each products}}
+            <option value="{{_id}}">{{name}}</option>
+            {{/each}}
+          </select>
+        </div>
 
-    <button class="btn" type="submit">Submit</button>
-  </form>
-</section>
+        <div class="form-group">
+          <label class="form-label">Baho (yulduz)</label>
+          <div class="star-rating">
+            <input type="radio" name="stars" id="s5" value="5"><label for="s5">★</label>
+            <input type="radio" name="stars" id="s4" value="4"><label for="s4">★</label>
+            <input type="radio" name="stars" id="s3" value="3" checked><label for="s3">★</label>
+            <input type="radio" name="stars" id="s2" value="2"><label for="s2">★</label>
+            <input type="radio" name="stars" id="s1" value="1"><label for="s1">★</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Izoh</label>
+          <textarea name="text" class="form-control" rows="4" placeholder="Taom haqida fikringizni yozing..." required style="resize:vertical;"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Rasm (ixtiyoriy)</label>
+          <label class="img-upload">
+            <input type="file" name="image" accept="image/*">
+            <div class="img-upload-text">📸 Rasm yuklash uchun bosing</div>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:0.9rem;">
+          Yuborish ✦
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

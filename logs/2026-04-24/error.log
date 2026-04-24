@@ -31,7 +31,23 @@
 {"level":"error","message":"{\"isException\":true,\"status\":409,\"name\":\"Conflict Exception\"}","timestamp":"2026-04-24T00:07:37.180Z"}
 {"level":"error","message":"{\"isException\":true,\"status\":409,\"name\":\"Conflict Exception\"}","timestamp":"2026-04-24T00:08:12.877Z"}
 {"level":"error","message":"{\"isException\":true,\"status\":409,\"name\":\"Conflict Exception\"}","timestamp":"2026-04-24T00:08:24.245Z"}
-{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-24T04:50:48.066Z"}
-{"level":"error","message":"{}","timestamp":"2026-04-24T04:53:42.821Z"}
-{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-24T04:58:26.474Z"}
-{"level":"error","message":"{\"isException\":true,\"status\":400,\"name\":\"Bad Request Exception\"}","timestamp":"2026-04-24T05:07:00.626Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.473Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.497Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.513Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.528Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.546Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.575Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.613Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.642Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.659Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.677Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.692Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.709Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.727Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.746Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.761Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.773Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.787Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.800Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.817Z"}
+{"level":"error","message":"{\"isException\":true,\"status\":404,\"name\":\"Not Found Exception\"}","timestamp":"2026-04-24T05:52:40.829Z"}

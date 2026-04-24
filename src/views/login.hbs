@@ -1,22 +1,124 @@
-<section class="auth-wrap">
-  <div class="auth-header">
-    <div>
-      <h1 class="page-title">Welcome Back</h1>
-      <p class="page-subtitle">Bitta login: admin ham, oddiy user ham shu formdan kiradi.</p>
+<style>
+  .auth-page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .auth-left {
+    background: var(--brown-dark);
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 3rem;
+    position: relative; overflow: hidden;
+  }
+  .auth-left::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(212,168,83,0.2) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(107,58,31,0.4) 0%, transparent 50%);
+  }
+  .auth-left-content { position: relative; z-index: 1; text-align: center; }
+  .auth-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem; font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+  .auth-logo span { color: var(--gold); }
+  .auth-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--gold-light);
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+  }
+  .auth-deco {
+    width: 180px; height: 180px;
+    border: 1px solid rgba(212,168,83,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto;
+    font-size: 5rem;
+  }
+  .auth-right {
+    display: flex; align-items: center; justify-content: center;
+    padding: 3rem;
+    background: var(--cream);
+  }
+  .auth-box {
+    width: 100%; max-width: 400px;
+    animation: fadeUp 0.6s ease;
+  }
+  .auth-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700;
+    color: var(--brown);
+    margin-bottom: 0.5rem;
+  }
+  .auth-sub {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+  .auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .auth-footer a { color: var(--brown-mid); font-weight: 500; text-decoration: none; }
+  .auth-footer a:hover { color: var(--gold); }
+  .divider {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 1.5rem 0;
+    color: var(--text-muted); font-size: 0.85rem;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1;
+    height: 1px; background: var(--border);
+  }
+  @media (max-width: 768px) {
+    .auth-page { grid-template-columns: 1fr; }
+    .auth-left { display: none; }
+  }
+</style>
+
+<div class="auth-page">
+  <div class="auth-left">
+    <div class="auth-left-content">
+      <div class="auth-logo">QR<span>Menu</span></div>
+      <div class="auth-tagline">Mazali taomlar siz uchun</div>
+      <div class="auth-deco">🍽</div>
     </div>
   </div>
-  <section class="card auth-card">
-    <h2>Login</h2>
-    <form action="/api/auth/login" method="POST">
-      <label for="email">Email</label>
-      <input class="input" type="email" name="email" id="email" required />
-      <label for="password">Password</label>
-      <input class="input" type="password" name="password" id="password" required />
-      <button class="btn" type="submit">Login</button>
-    </form>
-  </section>
-  <div class="auth-links">
-    <p>Don't you have an account? <a href="/register">Register</a></p>
-    <p><a href="/forgot-password">Forgot password?</a></p>
+  <div class="auth-right">
+    <div class="auth-box">
+      <div class="auth-title">Xush kelibsiz</div>
+      <div class="auth-sub">Hisobingizga kiring</div>
+
+
+      <form action="/api/auth/login" method="POST">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" name="email" class="form-control" placeholder="email@example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Parol</label>
+          <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding: 0.85rem;">
+          Kirish
+        </button>
+      </form>
+
+      <div class="divider">yoki</div>
+
+      <div class="auth-footer">
+        <a href="/forgot-password">Parolni unutdingizmi?</a>
+      </div>
+      <div class="auth-footer" style="margin-top: 0.75rem;">
+        Hisobingiz yo'qmi? <a href="/register">Ro'yxatdan o'ting</a>
+      </div>
+    </div>
   </div>
-</section>
+</div>

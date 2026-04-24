@@ -1,68 +1,150 @@
-import { BadRequestException } from "../exceptions/bad-request.exception.js";
+import { NotFoundException } from "../exceptions/not-found.exception.js";
 import { Product } from "../models/product.model.js";
+import { Category } from "../models/category.model.js";
+import { Comment } from "../models/comments.model.js";
+import fs from "node:fs/promises";
+import path from "node:path";
 
 class ProductController {
   #_ProductModel;
+  #_CategoryModel;
   constructor() {
     this.#_ProductModel = Product;
+    this.#_CategoryModel = Category;
   }
-  createProduct = async (req, res, next) => {
+
+  // Admin: barcha productlarni ko'rish
+  getProducts = async (req, res, next) => {
     try {
-      const { name, price, category_id, description } = req.body;
-      const isBrowserForm =
-        req.originalUrl.startsWith("/api/") &&
-        req.accepts("html") &&
-        req.method !== "GET";
+      const { category } = req.query;
+      const filter = { deletedAt: null };
+      if (category) filter.category = category;
 
-      const existing = await this.#_ProductModel.findOne({ name });
-      if (existing) throw new BadRequestException("Product already exists");
+      const products = await this.#_ProductModel.find(filter).populate("category").lean();
+      const categories = await this.#_CategoryModel.find({ deletedAt: null }).lean();
 
-      const product = await this.#_ProductModel.create({
-        name,
-        price,
-        description,
-        category: category_id,
-        createdBy: req.user.id,
-        imageUrl: req.files?.image?.[0]?.filename
-          ? `/uploads/${req.files.image[0].filename}`
-          : null,
+      res.render("admin/products", {
+        products,
+        categories,
+        selectedCategory: category || "",
+        user: req.user,
+        success: req.query.success,
+        error: req.query.error,
       });
-
-      if (isBrowserForm) {
-        return res.redirect(
-          "/admin/dashboard?message=Product%20created%20successfully",
-        );
-      }
-
-      if (req.originalUrl.startsWith("/api/")) {
-        return res.status(201).json({ success: true, data: product });
-      }
-
-      return res.redirect("/admin/dashboard");
     } catch (error) {
       next(error);
     }
   };
 
-  getProducts = async (req, res, next) => {
+  // Public: menu sahifasi
+  getMenu = async (req, res, next) => {
     try {
-      const { category_id } = req.query;
+      const categories = await this.#_CategoryModel.find({ deletedAt: null }).lean();
+      const { category } = req.query;
       const filter = { deletedAt: null };
-      if (category_id) filter.category = category_id;
+      if (category) filter.category = category;
 
-      const products = await this.#_ProductModel
-        .find(filter)
-        .populate("category", "name")
-        .sort("-createdAt");
+      const products = await this.#_ProductModel.find(filter).populate("category").lean();
 
-      if (req.originalUrl.startsWith("/api/")) {
-        return res.json({ success: true, data: products });
+      res.render("menu", {
+        products,
+        categories,
+        selectedCategory: category || "",
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // Public: bitta product sahifasi (feedback bilan)
+  getProductDetail = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const product = await this.#_ProductModel.findById(id).populate("category").lean();
+      if (!product) throw new NotFoundException("Product not found");
+
+      const feedbacks = await Comment.find({ product: id, deletedAt: null })
+        .populate("user", "name")
+        .sort("-createdAt")
+        .lean();
+
+      const avgStars = feedbacks.length
+        ? (feedbacks.reduce((sum, f) => sum + f.stars, 0) / feedbacks.length).toFixed(1)
+        : null;
+
+      res.render("product-detail", {
+        product,
+        feedbacks,
+        avgStars,
+        user: req.user || null,
+        success: req.query.success,
+        error: req.query.error,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  createProduct = async (req, res, next) => {
+    try {
+      const { name, price, category, description } = req.body;
+
+      const existing = await this.#_ProductModel.findOne({ name, deletedAt: null });
+      if (existing) {
+        return res.redirect("/admin/products?error=Bu+nomdagi+taom+allaqachon+mavjud");
       }
 
-      return res.render("menu", {
-        title: "Public Menu",
-        products,
+      await this.#_ProductModel.create({
+        name, price, category, description,
+        createdBy: req.user.id,
+        imageUrl: req.file ? `/uploads/${req.file.filename}` : null,
       });
+
+      res.redirect("/admin/products?success=Taom+muvaffaqiyatli+qo'shildi");
+    } catch (error) {
+      if (req.file) await fs.unlink(path.join(process.cwd(), `/uploads/${req.file.filename}`)).catch(() => {});
+      next(error);
+    }
+  };
+
+  updateProduct = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { name, price, category, description } = req.body;
+
+      const existing = await this.#_ProductModel.findById(id);
+      if (!existing) throw new NotFoundException("Product not found");
+
+      let imageUrl = existing.imageUrl;
+      if (req.file) {
+        if (existing.imageUrl) await fs.unlink(path.join(process.cwd(), existing.imageUrl)).catch(() => {});
+        imageUrl = `/uploads/${req.file.filename}`;
+      }
+
+      await this.#_ProductModel.findByIdAndUpdate(id, {
+        name, price, category, description, imageUrl,
+        updatedBy: req.user.id,
+      });
+
+      res.redirect("/admin/products?success=Taom+yangilandi");
+    } catch (error) {
+      if (req.file) await fs.unlink(path.join(process.cwd(), `/uploads/${req.file.filename}`)).catch(() => {});
+      next(error);
+    }
+  };
+
+  deleteProduct = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const product = await this.#_ProductModel.findById(id);
+      if (!product) throw new NotFoundException("Product not found");
+
+      await this.#_ProductModel.findByIdAndUpdate(id, {
+        deletedBy: req.user.id,
+        deletedAt: new Date(),
+      });
+
+      res.redirect("/admin/products?success=Taom+o'chirildi");
     } catch (error) {
       next(error);
     }

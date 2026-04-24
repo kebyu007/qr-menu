@@ -10,16 +10,15 @@ const BASE_URL = process.env.BASE_URL;
 export const VerifySignatureMiddleware = (req, res, next) => {
   try {
     const fullUrl = `${BASE_URL}${req.url}`;
-
     signature.verify(fullUrl);
     next();
   } catch (error) {
     if (error instanceof BlackholedSignatureError) {
-      throw new ConflictException("Signature is not valid");
+      return next(new ConflictException("Signature is not valid"));
     }
     if (error instanceof ExpiredSignatureError) {
-      throw new ConflictException("Signature expired");
-    } 
+      return next(new ConflictException("Signature expired"));
+    }
     next(error);
   }
 };

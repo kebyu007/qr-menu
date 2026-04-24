@@ -1,0 +1,174 @@
+<style>
+  .admin-layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+
+  /* Sidebar */
+  .sidebar {
+    background: var(--brown-dark);
+    padding: 2rem 1rem;
+    position: sticky; top: 0; height: 100vh;
+    display: flex; flex-direction: column; overflow-y: auto;
+  }
+  .sidebar-brand { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--cream); padding: 0 0.75rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1.5rem; }
+  .sidebar-brand span { color: var(--gold); }
+  .sidebar-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(250,246,240,0.35); padding: 0 0.75rem; margin-bottom: 0.5rem; }
+  .sidebar-link {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.7rem 0.75rem;
+    border-radius: 10px;
+    color: rgba(250,246,240,0.65);
+    text-decoration: none; font-size: 0.9rem; font-weight: 500;
+    transition: all 0.2s; margin-bottom: 0.2rem;
+  }
+  .sidebar-link:hover { background: rgba(255,255,255,0.08); color: var(--cream); }
+  .sidebar-link.active { background: rgba(212,168,83,0.15); color: var(--gold); }
+  .sidebar-link .icon { font-size: 1.1rem; width: 22px; text-align: center; }
+  .sidebar-bottom { margin-top: auto; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
+
+  /* Main */
+  .admin-main { background: var(--cream); overflow-y: auto; }
+  .admin-topbar {
+    background: var(--warm-white); border-bottom: 1px solid var(--border);
+    padding: 0 2rem; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 10;
+  }
+  .topbar-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--brown); font-weight: 700; }
+  .topbar-user { display: flex; align-items: center; gap: 0.75rem; }
+  .user-avatar { width: 36px; height: 36px; background: linear-gradient(135deg, var(--brown), var(--gold)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+  .user-name { font-size: 0.9rem; font-weight: 500; color: var(--text); }
+  .user-role { font-size: 0.75rem; color: var(--text-muted); }
+
+  .admin-content { padding: 2rem; }
+
+  /* Stats */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 2rem; }
+  .stat-card {
+    background: var(--warm-white); border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: fadeUp 0.5s ease both;
+  }
+  .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .stat-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+  .stat-icon-brown { background: rgba(61,32,9,0.1); }
+  .stat-icon-gold { background: rgba(212,168,83,0.15); }
+  .stat-icon-sage { background: rgba(122,140,110,0.15); }
+  .stat-icon-red { background: rgba(192,57,43,0.1); }
+  .stat-value { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--brown); line-height: 1; }
+  .stat-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+  /* Recent feedbacks */
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--brown); margin-bottom: 1.25rem; }
+  .feedback-list { display: flex; flex-direction: column; gap: 0.75rem; }
+  .feedback-item {
+    background: var(--warm-white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.25rem;
+    display: flex; gap: 1rem; align-items: flex-start;
+    animation: fadeUp 0.5s ease both;
+  }
+  .feedback-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, var(--brown-light), var(--gold)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+  .feedback-name { font-weight: 600; font-size: 0.9rem; color: var(--text); }
+  .feedback-product { font-size: 0.82rem; color: var(--text-muted); }
+  .feedback-text { font-size: 0.9rem; color: var(--text); margin-top: 0.35rem; }
+  .feedback-stars { color: var(--gold); font-size: 0.85rem; }
+  .empty { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 0.95rem; }
+
+  @media (max-width: 1024px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .admin-layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+  }
+</style>
+
+<div class="admin-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">QR<span>Menu</span></div>
+    <div class="sidebar-label">Asosiy</div>
+    <a href="/admin" class="sidebar-link active"><span class="icon">📊</span> Dashboard</a>
+    <a href="/admin/categories" class="sidebar-link"><span class="icon">📂</span> Kategoriyalar</a>
+    <a href="/admin/products" class="sidebar-link"><span class="icon">🍽</span> Taomlar</a>
+    <a href="/admin/feedback" class="sidebar-link"><span class="icon">💬</span> Feedbacklar</a>
+    <div class="sidebar-bottom">
+      <a href="/menu" class="sidebar-link"><span class="icon">👁</span> Menuni ko'rish</a>
+      <a href="/profile" class="sidebar-link"><span class="icon">👤</span> Profil</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <div class="topbar-title">Dashboard</div>
+      <div class="topbar-user">
+        <div class="user-avatar">👤</div>
+        <div>
+          <div class="user-name">Admin</div>
+          <div class="user-role">Administrator</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card" style="animation-delay:0ms">
+          <div class="stat-icon stat-icon-brown">👥</div>
+          <div>
+            <div class="stat-value">{{stats.totalUsers}}</div>
+            <div class="stat-label">Foydalanuvchilar</div>
+          </div>
+        </div>
+        <div class="stat-card" style="animation-delay:100ms">
+          <div class="stat-icon stat-icon-gold">🍽</div>
+          <div>
+            <div class="stat-value">{{stats.totalProducts}}</div>
+            <div class="stat-label">Taomlar</div>
+          </div>
+        </div>
+        <div class="stat-card" style="animation-delay:200ms">
+          <div class="stat-icon stat-icon-sage">📂</div>
+          <div>
+            <div class="stat-value">{{stats.totalCategories}}</div>
+            <div class="stat-label">Kategoriyalar</div>
+          </div>
+        </div>
+        <div class="stat-card" style="animation-delay:300ms">
+          <div class="stat-icon stat-icon-red">💬</div>
+          <div>
+            <div class="stat-value">{{stats.totalFeedbacks}}</div>
+            <div class="stat-label">Feedbacklar</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent feedbacks -->
+      <div class="section-title">Oxirgi feedbacklar</div>
+      {{#if recentFeedbacks.length}}
+      <div class="feedback-list">
+        {{#each recentFeedbacks}}
+        <div class="feedback-item" style="animation-delay:{{@index}}00ms">
+          <div class="feedback-avatar">👤</div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div>
+                <div class="feedback-name">{{user.name}}</div>
+                <div class="feedback-product">{{product.name}}</div>
+              </div>
+              <div class="feedback-stars">
+                {{#times stars}}★{{/times}}
+              </div>
+            </div>
+            <div class="feedback-text">{{text}}</div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+      {{else}}
+        <div class="empty">Hali feedback yo'q</div>
+      {{/if}}
+    </div>
+  </div>
+</div>

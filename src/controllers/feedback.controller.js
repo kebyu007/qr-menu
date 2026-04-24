@@ -1,77 +1,86 @@
-import { Feedback } from "../models/feedback.model.js";
+import { NotFoundException } from "../exceptions/not-found.exception.js";
 import { sendEmail } from "../helpers/mail.helper.js";
+import { Comment } from "../models/comments.model.js";
+import { Product } from "../models/product.model.js";
+import { User } from "../models/user.model.js";
+import { config } from "dotenv";
 import logger from "../helpers/logger.helper.js";
 
+config({ quiet: true });
+
 class FeedbackController {
-  async createFeedback(req, res, next) {
+  // Public: product sahifasidan feedback yuborish
+  createFeedback = async (req, res, next) => {
     try {
-      const { message, type, product_id } = req.body;
-      const isBrowserForm =
-        req.originalUrl.startsWith("/api/") &&
-        req.accepts("html") &&
-        req.method !== "GET";
+      const { productId } = req.params;
+      const { text, stars } = req.body;
 
-      const feedback = await Feedback.create({
-        message,
-        type,
-        product_id,
-        image: req.files?.image?.[0]?.filename
-          ? `/uploads/${req.files.image[0].filename}`
-          : null,
-        device_info: req.get("user-agent") || "unknown-device",
-        user_id: req.user?.id || null,
+      const foundProduct = await Product.findById(productId);
+      if (!foundProduct) throw new NotFoundException("Product not found");
+
+      const deviceInfo = req.headers["user-agent"] || "Unknown device";
+
+      const feedback = await Comment.create({
+        text,
+        stars: Number(stars),
+        product: productId,
+        user: req.user.id,
+        imageUrl: req.file ? `/uploads/${req.file.filename}` : null,
+        deviceInfo,
       });
 
-      logger.info(
-        JSON.stringify({
-          event: "feedback_submitted",
-          type,
-          id: feedback._id.toString(),
-        }),
-      );
+      logger.info(`New feedback submitted: ${feedback._id}`);
 
-      if (type === "complaint" && process.env.ADMIN_NOTIFY_EMAIL) {
+      const admin = await User.findOne({ role: "ADMIN" });
+      if (admin) {
         sendEmail(
-          process.env.ADMIN_NOTIFY_EMAIL,
-          "New complaint from QR menu",
-          `Complaint: ${message}`,
+          admin.email,
+          "New Feedback Received",
+          `Product: ${foundProduct.name}\nRating: ${stars} stars\nComment: ${text}\nDevice: ${deviceInfo}`
         );
       }
 
-      if (isBrowserForm) {
-        return res.redirect(
-          `/feedback?product_id=${product_id}&message=Feedback%20sent%20successfully`,
-        );
-      }
-
-      if (req.originalUrl.startsWith("/api/")) {
-        return res.status(201).json({ success: true, data: feedback });
-      }
-
-      return res.redirect(`/feedback?success=1&product_id=${product_id}`);
+      res.redirect(`/menu/${productId}?success=Fikringiz+qabul+qilindi`);
     } catch (error) {
       next(error);
     }
-  }
+  };
 
-  async getFeedback(req, res, next) {
+  // Admin: barcha feedbacklarni ko'rish
+  getAllFeedback = async (req, res, next) => {
     try {
-      const feedbacks = await Feedback.find()
-        .populate("product_id", "name")
-        .sort("-created_at");
+      const feedbacks = await Comment.find({ deletedAt: null })
+        .populate("user", "name email")
+        .populate("product", "name")
+        .sort("-createdAt")
+        .lean();
 
-      if (req.originalUrl.startsWith("/api/")) {
-        return res.json({ success: true, data: feedbacks });
-      }
-
-      return res.render("admin-dashboard", {
-        title: "Admin Dashboard",
+      res.render("admin/feedback", {
         feedbacks,
+        user: req.user,
+        success: req.query.success,
       });
     } catch (error) {
       next(error);
     }
-  }
+  };
+
+  deleteFeedback = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const feedback = await Comment.findById(id);
+      if (!feedback) throw new NotFoundException("Feedback not found");
+
+      await Comment.findByIdAndUpdate(id, {
+        deletedBy: req.user.id,
+        deletedAt: new Date(),
+      });
+
+      res.redirect("/admin/feedback?success=Feedback+o'chirildi");
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default new FeedbackController();

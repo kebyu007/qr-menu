@@ -1,6 +1,8 @@
 import jwtConfig from "../configs/jwt.config.js";
 import jwt from "jsonwebtoken";
+import { BadRequestException } from "../exceptions/bad-request.exception.js";
 import { config } from "dotenv";
+import { UnauthorizedException } from "../exceptions/unathorized.exception.js";
 
 config({ quiet: true });
 
@@ -12,7 +14,9 @@ export const Protected = (isProtected) => {
     }
 
     const token = req.cookies?.accessToken;
-    if (!token) return res.redirect("/login");
+    console.log("🔍 Cookies:", req.cookies);
+    console.log("🔍 AccessToken:", token);
+    if (!token) return res.redirect("/");
 
     try {
       const payload = jwt.verify(token, jwtConfig.accessKey);
@@ -21,7 +25,7 @@ export const Protected = (isProtected) => {
     } catch (error) {
       if (error instanceof jwt.TokenExpiredError) {
         const refreshToken = req.cookies?.refreshToken;
-        if (!refreshToken) return res.redirect("/login");
+        if (!refreshToken) return res.redirect("/");
 
         try {
           const payload = jwt.verify(refreshToken, jwtConfig.refreshKey);
@@ -40,12 +44,12 @@ export const Protected = (isProtected) => {
           req.user = payload;
           return next();
         } catch {
-          return res.redirect("/login");
+          return res.redirect("/");
         }
       }
 
       if (error instanceof jwt.JsonWebTokenError) {
-        return res.redirect("/login");
+        return res.redirect("/");
       }
 
       next(error);

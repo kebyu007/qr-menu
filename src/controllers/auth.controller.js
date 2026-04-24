@@ -9,7 +9,6 @@ import { NotFoundException } from "../exceptions/not-found.exception.js";
 import { BadRequestException } from "../exceptions/bad-request.exception.js";
 import { sendEmail } from "../helpers/mail.helper.js";
 import adminConfig from "../configs/admin.config.js";
-import logger from "../helpers/logger.helper.js";
 
 config({ quiet: true });
 const BASE_URL = process.env.BASE_URL;
@@ -26,6 +25,7 @@ class AuthController {
 
       const existingUser = await this.#_UserModel.findOne({ email });
       if (existingUser) {
+        // throw new ConflictException(`Given email: ${email} already exists`);
         return res.render("login", {
           error: `Given email: ${email} already exists`,
         });
@@ -78,7 +78,6 @@ class AuthController {
       const existingUser = await this.#_UserModel.findOne({ email });
 
       if (!existingUser) {
-        logger.info(JSON.stringify({ event: "login_attempt", email, success: false }));
         return res.render("login", { error: "Email topilmadi" });
       }
 
@@ -88,7 +87,6 @@ class AuthController {
       );
 
       if (!comparePassword) {
-        logger.info(JSON.stringify({ event: "login_attempt", email, success: false }));
         return res.render("login", { error: "Parol noto'g'ri" });
       }
 
@@ -115,8 +113,11 @@ class AuthController {
         path: "/",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
-      logger.info(JSON.stringify({ event: "login_attempt", email, success: true }));
-      res.redirect(existingUser.role === "ADMIN" ? "/admin/dashboard" : "/profile");
+      console.log({
+        success: true,
+        data: { accessToken, refreshToken },
+      });
+      res.redirect("/profile");
     } catch (error) {
       next(error);
     }
@@ -124,7 +125,7 @@ class AuthController {
 
   refresh = async (req, res, next) => {
     try {
-      const refreshToken = req.body.refreshToken || req.cookies.refreshToken;
+      const { refreshToken } = req.body;
       if (!refreshToken) throw new BadRequestException("Token not given");
 
       const payload = jwt.verify(refreshToken, jwtConfig.refreshKey);
@@ -133,13 +134,6 @@ class AuthController {
         role: payload.role,
       });
 
-      res.cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "lax",
-        path: "/",
-        maxAge: 15 * 60 * 1000,
-      });
       res.send({ success: true, data: { accessToken } });
     } catch (error) {
       next(error);
@@ -161,7 +155,7 @@ class AuthController {
         "Forgot password request",
         `Reset Password link: ${signedUrl}`,
       );
-      res.render(req.url.split("/").at(-1), {
+      res.render("forgot-password", {
         message: "Reset password link sent to your email.",
       });
     } catch (error) {
@@ -201,31 +195,31 @@ class AuthController {
   };
 
   seedAdmins = async () => {
-    const admins = [{ name: "admin", age: 25, email: adminConfig.email1, password: adminConfig.pass1 }];
-
-    for (const a of admins) {
-      if (!a.email || !a.password) continue;
-
+    const admins = [
+      {
+        name: "admin",
+        age: 25,
+        email: adminConfig.email1,
+        password: adminConfig.pass1,
+      },
+    ];
+    for (let a of admins) {
       const existingUser = await this.#_UserModel.findOne({ email: a.email });
       if (!existingUser) {
         await this.#_UserModel.create({
-          name: a.name,
-          age: a.age,
-          email: a.email,
+          ...a,
           role: "ADMIN",
           password: await this.#_hashPass(a.password),
         });
-        continue;
-      }
-
-      const isSamePassword = await this.#_comparePass(a.password, existingUser.password);
-      if (existingUser.role !== "ADMIN" || !isSamePassword) {
-        existingUser.role = "ADMIN";
-        existingUser.password = await this.#_hashPass(a.password);
-        await existingUser.save();
       }
     }
-    console.log("ADMINS SEEDED/UPDATED");
+    console.log("ADMINS SEEDED");
+  };
+
+  logout = (req, res) => {
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
+    res.redirect("/login");
   };
 
   #_hashPass = async (pass) => await bcryct.hash(pass, 10);
@@ -238,3 +232,4 @@ class AuthController {
 }
 
 export default new AuthController();
+// Logout — buni class ichiga qo'shish kerak edi, shuning uchun alohida export qilamiz

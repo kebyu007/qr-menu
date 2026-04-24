@@ -2,31 +2,14 @@ import mongoose from "mongoose";
 
 const CategorySchema = new mongoose.Schema(
   {
-    name: {
-      type: mongoose.Schema.Types.String,
-      required: true,
-      unique: true,
-    },
-    avatarUrl: { type: String, default: null },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    updatedBy: {
-      type: mongoose.SchemaTypes.String,
-      default: null,
-    },
-    deletedBy: {
-      type: mongoose.SchemaTypes.String,
-      default: null,
-    },
-    deletedAt: {
-      type: mongoose.SchemaTypes.Date,
-      default: null,
-    },
+    name: { type: String, required: true, unique: true },
+    imageUrl: { type: String, default: null },  // ✅ imageUrl (avatarUrl o'rniga)
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
+    updatedBy: { type: String, default: null },
+    deletedBy: { type: String, default: null },
+    deletedAt: { type: Date, default: null },
   },
-  { collection: "categories", timestamps: true, versionKey: false },
+  { collection: "category", timestamps: true, versionKey: false }
 );
 
 export const Category = mongoose.model("Category", CategorySchema);
