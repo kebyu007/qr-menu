@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const CategorySchema = new mongoose.Schema(
   {
     name: { type: String, required: true, unique: true },
-    imageUrl: { type: String, default: null },  // ✅ imageUrl (avatarUrl o'rniga)
+    imageUrl: { type: String, default: null },  
     user: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
     updatedBy: { type: String, default: null },
     deletedBy: { type: String, default: null },

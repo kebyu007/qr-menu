@@ -7,8 +7,8 @@ export const Guest = (req, res, next) => {
 
   try {
     jwt.verify(token, jwtConfig.accessKey);
-    res.redirect("/profile"); // token valid — profilega
+    res.redirect("/profile"); 
   } catch {
-    next(); // token eskirgan yoki noto'g'ri — o'tkazib yubor
+    next(); 
   }
 };

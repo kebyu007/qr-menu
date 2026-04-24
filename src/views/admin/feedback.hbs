@@ -1,112 +1,94 @@
 <style>
-  .admin-layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
-  .sidebar { background: var(--brown-dark); padding: 2rem 1rem; position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; overflow-y: auto; }
-  .sidebar-brand { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--cream); padding: 0 0.75rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1.5rem; }
-  .sidebar-brand span { color: var(--gold); }
-  .sidebar-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(250,246,240,0.35); padding: 0 0.75rem; margin-bottom: 0.5rem; }
-  .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 0.75rem; border-radius: 10px; color: rgba(250,246,240,0.65); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: all 0.2s; margin-bottom: 0.2rem; }
-  .sidebar-link:hover { background: rgba(255,255,255,0.08); color: var(--cream); }
-  .sidebar-link.active { background: rgba(212,168,83,0.15); color: var(--gold); }
-  .sidebar-link .icon { font-size: 1.1rem; width: 22px; text-align: center; }
-  .sidebar-bottom { margin-top: auto; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
-  .admin-main { background: var(--cream); }
-  .admin-topbar { background: var(--warm-white); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
-  .topbar-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--brown); font-weight: 700; }
-  .admin-content { padding: 2rem; }
+  .admin-layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+  .sidebar{background:var(--brown-dark);padding:1.5rem 1rem;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;overflow-y:auto;}
+  .sidebar-brand{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--cream);padding:0 0.75rem 1.5rem;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:1.25rem;}
+  .sidebar-brand span{color:var(--gold);}
+  .sidebar-label{font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:rgba(250,246,240,0.35);padding:0 0.75rem;margin-bottom:0.4rem;}
+  .sidebar-link{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0.75rem;border-radius:10px;color:rgba(250,246,240,0.65);text-decoration:none;font-size:0.875rem;font-weight:500;transition:all 0.2s;margin-bottom:0.15rem;}
+  .sidebar-link:hover{background:rgba(255,255,255,0.08);color:var(--cream);}
+  .sidebar-link.active{background:rgba(212,168,83,0.15);color:var(--gold);}
+  .sidebar-link .icon{font-size:1rem;width:20px;text-align:center;}
+  .sidebar-bottom{margin-top:auto;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,0.1);}
+  .admin-main{background:var(--cream);}
+  .admin-topbar{background:var(--warm-white);border-bottom:1px solid var(--border);padding:0 1.5rem;height:60px;display:flex;align-items:center;gap:0.75rem;position:sticky;top:0;z-index:10;}
+  .topbar-title{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--brown);font-weight:700;}
+  .hamburger-admin{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--brown);}
+  .admin-content{padding:1.5rem;}
 
-  .feedback-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.25rem; }
-  .feedback-card {
-    background: var(--warm-white); border: 1px solid var(--border);
-    border-radius: 16px; padding: 1.5rem;
-    display: flex; flex-direction: column; gap: 1rem;
-    animation: fadeUp 0.5s ease both;
-    transition: box-shadow 0.2s;
+  .feedback-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.1rem;}
+  .fb-card{background:var(--warm-white);border:1px solid var(--border);border-radius:14px;padding:1.25rem;display:flex;flex-direction:column;gap:0.85rem;animation:fadeUp 0.4s ease both;transition:box-shadow 0.2s;}
+  .fb-card:hover{box-shadow:var(--shadow);}
+  .fb-header{display:flex;align-items:flex-start;justify-content:space-between;gap:0.75rem;}
+  .fb-user{display:flex;align-items:center;gap:0.65rem;}
+  .fb-avatar{width:38px;height:38px;background:linear-gradient(135deg,var(--brown-light),var(--gold));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+  .fb-name{font-weight:600;font-size:0.875rem;}
+  .fb-email{font-size:0.75rem;color:var(--text-muted);}
+  .fb-stars{color:var(--gold);font-size:0.875rem;white-space:nowrap;}
+  .fb-product{display:inline-flex;align-items:center;gap:0.3rem;background:rgba(212,168,83,0.12);color:var(--brown-mid);border:1px solid rgba(212,168,83,0.25);padding:0.2rem 0.65rem;border-radius:50px;font-size:0.75rem;font-weight:500;}
+  .fb-text{font-size:0.875rem;color:var(--text);line-height:1.6;}
+  .fb-img{width:100%;height:150px;object-fit:cover;border-radius:8px;}
+  .fb-footer{display:flex;align-items:center;justify-content:space-between;padding-top:0.75rem;border-top:1px solid var(--border);}
+  .fb-date{font-size:0.75rem;color:var(--text-muted);}
+  .empty{text-align:center;padding:4rem 1.5rem;color:var(--text-muted);}
+  .empty .icon{font-size:3rem;margin-bottom:0.75rem;}
+
+  @media(max-width:768px){
+    .admin-layout{grid-template-columns:1fr;}
+    .sidebar{display:none;position:fixed;width:260px;height:100vh;z-index:300;top:0;left:0;transform:translateX(-100%);transition:transform 0.3s;}
+    .sidebar.open{display:flex;transform:translateX(0);}
+    .hamburger-admin{display:block;}
+    .admin-content{padding:1rem;}
+    .feedback-grid{grid-template-columns:1fr;}
   }
-  .feedback-card:hover { box-shadow: var(--shadow); }
-  .feedback-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
-  .feedback-user { display: flex; align-items: center; gap: 0.75rem; }
-  .user-avatar { width: 42px; height: 42px; background: linear-gradient(135deg, var(--brown-light), var(--gold)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
-  .user-name { font-weight: 600; font-size: 0.9rem; color: var(--text); }
-  .user-email { font-size: 0.78rem; color: var(--text-muted); }
-  .stars { color: var(--gold); font-size: 0.95rem; letter-spacing: 1px; }
-  .product-tag { display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(212,168,83,0.12); color: var(--brown-mid); border: 1px solid rgba(212,168,83,0.25); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.78rem; font-weight: 500; }
-  .feedback-text { font-size: 0.9rem; color: var(--text); line-height: 1.6; }
-  .feedback-img { width: 100%; height: 160px; object-fit: cover; border-radius: 10px; }
-  .feedback-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 0.75rem; border-top: 1px solid var(--border); }
-  .feedback-meta { font-size: 0.78rem; color: var(--text-muted); }
-  .device-tag { font-size: 0.72rem; color: var(--text-muted); background: var(--cream); padding: 0.2rem 0.6rem; border-radius: 50px; border: 1px solid var(--border); }
-  .empty-state { text-align: center; padding: 5rem 2rem; color: var(--text-muted); }
-  .empty-state .icon { font-size: 4rem; margin-bottom: 1rem; }
-
-  @media (max-width: 768px) { .admin-layout { grid-template-columns: 1fr; } .sidebar { display: none; } .feedback-grid { grid-template-columns: 1fr; } }
 </style>
 
 <div class="admin-layout">
-  <aside class="sidebar">
+  <aside class="sidebar" id="adminSidebar">
     <div class="sidebar-brand">QR<span>Menu</span></div>
     <div class="sidebar-label">Asosiy</div>
     <a href="/admin" class="sidebar-link"><span class="icon">📊</span> Dashboard</a>
     <a href="/admin/categories" class="sidebar-link"><span class="icon">📂</span> Kategoriyalar</a>
     <a href="/admin/products" class="sidebar-link"><span class="icon">🍽</span> Taomlar</a>
     <a href="/admin/feedback" class="sidebar-link active"><span class="icon">💬</span> Feedbacklar</a>
+    <a href="/admin/qr" class="sidebar-link"><span class="icon">📱</span> QR Kodlar</a>
     <div class="sidebar-bottom">
       <a href="/menu" class="sidebar-link"><span class="icon">👁</span> Menuni ko'rish</a>
       <a href="/profile" class="sidebar-link"><span class="icon">👤</span> Profil</a>
+      <a href="/api/auth/logout" class="sidebar-link"><span class="icon">🚪</span> Chiqish</a>
     </div>
   </aside>
 
   <div class="admin-main">
     <div class="admin-topbar">
+      <button class="hamburger-admin" onclick="document.getElementById('adminSidebar').classList.toggle('open')">☰</button>
       <div class="topbar-title">Feedbacklar</div>
     </div>
-
     <div class="admin-content">
       {{#if feedbacks.length}}
       <div class="feedback-grid">
         {{#each feedbacks}}
-        <div class="feedback-card" style="animation-delay:{{@index}}0ms">
-          <div class="feedback-header">
-            <div class="feedback-user">
-              <div class="user-avatar">👤</div>
-              <div>
-                <div class="user-name">{{user.name}}</div>
-                <div class="user-email">{{user.email}}</div>
-              </div>
+        <div class="fb-card" style="animation-delay:{{@index}}0ms">
+          <div class="fb-header">
+            <div class="fb-user">
+              <div class="fb-avatar">👤</div>
+              <div><div class="fb-name">{{user.name}}</div><div class="fb-email">{{user.email}}</div></div>
             </div>
-            <div class="stars">
-              {{#times stars}}★{{/times}}
-            </div>
+            <div class="fb-stars">{{#times stars}}★{{/times}}</div>
           </div>
-
-          <div>
-            <span class="product-tag">🍽 {{product.name}}</span>
-          </div>
-
-          <div class="feedback-text">{{text}}</div>
-
-          {{#if imageUrl}}
-          <img src="{{imageUrl}}" alt="feedback" class="feedback-img">
-          {{/if}}
-
-          <div class="feedback-footer">
-            <div>
-              <div class="feedback-meta">{{createdAt}}</div>
-              {{#if deviceInfo}}
-              <div class="device-tag" style="margin-top:0.25rem;" title="{{deviceInfo}}">📱 Device</div>
-              {{/if}}
-            </div>
-            <form action="/admin/feedback/{{_id}}/delete" method="POST" onsubmit="return confirm('O\'chirishni tasdiqlaysizmi?')">
-              <button type="submit" class="btn btn-danger btn-sm">🗑 O'chirish</button>
+          <div><span class="fb-product">🍽 {{product.name}}</span></div>
+          <div class="fb-text">{{text}}</div>
+          {{#if imageUrl}}<img src="{{imageUrl}}" alt="feedback" class="fb-img">{{/if}}
+          <div class="fb-footer">
+            <div class="fb-date">{{createdAt}}</div>
+            <form action="/admin/feedback/{{_id}}/delete" method="POST" onsubmit="return confirm('O\'chirilsinmi?')" style="margin:0;">
+              <button type="submit" class="btn btn-danger btn-sm">🗑</button>
             </form>
           </div>
         </div>
         {{/each}}
       </div>
       {{else}}
-      <div class="empty-state">
-        <div class="icon">💬</div>
-        <p>Hali feedback yo'q</p>
-      </div>
+      <div class="empty"><div class="icon">💬</div><p>Hali feedback yo'q</p></div>
       {{/if}}
     </div>
   </div>

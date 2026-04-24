@@ -1,0 +1,95 @@
+<style>
+  .qr-page {
+    min-height: 100vh;
+    background: var(--brown-dark);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 2rem 1.25rem;
+    position: relative; overflow: hidden;
+  }
+  .qr-page::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(212,168,83,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(107,58,31,0.3) 0%, transparent 50%);
+  }
+  .qr-content { position: relative; z-index: 1; text-align: center; max-width: 480px; width: 100%; }
+  .qr-logo { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--cream); margin-bottom: 0.25rem; }
+  .qr-logo span { color: var(--gold); }
+  .qr-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--gold-light); font-size: 1rem; margin-bottom: 2.5rem; }
+
+  .qr-card {
+    background: var(--cream);
+    border-radius: 24px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .qr-card img { width: 100%; max-width: 280px; height: auto; margin: 0 auto 1.25rem; border-radius: 12px; }
+  .qr-card-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--brown); font-weight: 700; margin-bottom: 0.4rem; }
+  .qr-card-sub { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.25rem; }
+  .qr-url { background: var(--cream); border: 1.5px dashed var(--border); border-radius: 8px; padding: 0.6rem 1rem; font-size: 0.82rem; color: var(--brown-mid); font-family: monospace; word-break: break-all; margin-bottom: 1.25rem; }
+
+  .qr-actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+
+  .qr-steps { display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; }
+  .qr-step { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+  .step-num { width: 36px; height: 36px; border-radius: 50%; background: rgba(212,168,83,0.2); border: 1px solid rgba(212,168,83,0.4); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; color: var(--gold); }
+  .step-text { font-size: 0.78rem; color: rgba(250,246,240,0.6); text-align: center; max-width: 80px; }
+
+  .qr-footer { margin-top: 2.5rem; color: rgba(250,246,240,0.35); font-size: 0.78rem; }
+
+  @media (max-width: 480px) {
+    .qr-card { padding: 1.5rem; }
+    .qr-logo { font-size: 1.8rem; }
+  }
+</style>
+
+<div class="qr-page">
+  <div class="qr-content">
+    <div class="qr-logo">QR<span>Menu</span></div>
+    <div class="qr-tagline">Skanerlang va menuni ko'ring</div>
+
+    <div class="qr-card">
+      <img src="{{menuQr}}" alt="Menu QR Code">
+      <div class="qr-card-title">Restoran Menyu</div>
+      <div class="qr-card-sub">Ushbu QR kodni skanerlang va bizning to'liq menyu ro'yxatimizni ko'ring</div>
+      <div class="qr-url">{{menuUrl}}</div>
+      <div class="qr-actions">
+        <a href="{{menuUrl}}" class="btn btn-primary">🍽 Menuga o'tish</a>
+        <button onclick="downloadQR()" class="btn btn-gold">⬇ Yuklab olish</button>
+      </div>
+    </div>
+
+    <div class="qr-steps">
+      <div class="qr-step">
+        <div class="step-num">1</div>
+        <div class="step-text">Kamerani oching</div>
+      </div>
+      <div class="qr-step">
+        <div class="step-num">2</div>
+        <div class="step-text">QR ga yo'naltiring</div>
+      </div>
+      <div class="qr-step">
+        <div class="step-num">3</div>
+        <div class="step-text">Havolaga bosing</div>
+      </div>
+      <div class="qr-step">
+        <div class="step-num">4</div>
+        <div class="step-text">Menyu ko'ring!</div>
+      </div>
+    </div>
+
+    <div class="qr-footer">© 2025 QRMenu</div>
+  </div>
+</div>
+
+<script>
+  function downloadQR() {
+    const img = document.querySelector('.qr-card img');
+    const a = document.createElement('a');
+    a.href = img.src;
+    a.download = 'menu-qr.png';
+    a.click();
+  }
+</script>

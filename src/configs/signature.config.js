@@ -7,4 +7,3 @@ export const signature = signed.default({
   secret: process.env.SIGNATURE_KEY,
 });
 
-

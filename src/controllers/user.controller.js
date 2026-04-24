@@ -5,7 +5,7 @@ import { Product } from "../models/product.model.js";
 import { Category } from "../models/category.model.js";
 
 class UserController {
-  // Admin dashboard
+  
   getDashboard = async (req, res, next) => {
     try {
       const totalUsers = await User.countDocuments({ deletedAt: null });
@@ -29,7 +29,7 @@ class UserController {
     }
   };
 
-  // Profile
+  
   getProfile = async (req, res, next) => {
     try {
       const user = await User.findById(req.user.id).select("-password").lean();

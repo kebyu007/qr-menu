@@ -1,75 +1,83 @@
 <style>
-  .menu-nav {
-    background: rgba(250,246,240,0.95); backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem; display: flex; align-items: center;
-    justify-content: space-between; height: 64px;
-    position: sticky; top: 0; z-index: 100;
+  .menu-nav { background:rgba(250,246,240,0.95); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); padding:0 1.5rem; display:flex; align-items:center; justify-content:space-between; height:60px; position:sticky; top:0; z-index:100; }
+  .nav-brand { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; color:var(--brown); text-decoration:none; }
+  .nav-brand span { color:var(--gold); }
+  .nav-links { display:flex; gap:0.25rem; align-items:center; }
+  .nav-links a { padding:0.45rem 0.9rem; border-radius:8px; color:var(--text-muted); text-decoration:none; font-size:0.875rem; font-weight:500; transition:all 0.2s; }
+  .nav-links a:hover { background:var(--border); color:var(--brown); }
+  .hamburger { display:none; background:none; border:none; cursor:pointer; padding:0.5rem; color:var(--brown); font-size:1.4rem; }
+
+  .hero { background:var(--brown-dark); padding:4rem 1.5rem 3rem; text-align:center; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 0%, rgba(212,168,83,0.25) 0%, transparent 60%); }
+  .hero-content { position:relative; z-index:1; max-width:560px; margin:0 auto; }
+  .hero-tag { color:var(--gold); font-size:0.78rem; font-weight:600; text-transform:uppercase; letter-spacing:0.15em; margin-bottom:0.75rem; }
+  .hero-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.5rem); color:var(--cream); font-weight:700; line-height:1.15; margin-bottom:0.75rem; }
+  .hero-title em { color:var(--gold); font-style:italic; }
+  .hero-sub { color:rgba(250,246,240,0.65); font-size:0.9rem; }
+
+  .container { max-width:1100px; margin:0 auto; padding:0 1.25rem; }
+
+  .cats-section { padding:1.5rem 0 0.75rem; }
+  .cats-scroll { display:flex; gap:0.6rem; overflow-x:auto; padding-bottom:0.5rem; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+  .cats-scroll::-webkit-scrollbar { display:none; }
+  .cat-btn { display:inline-flex; align-items:center; gap:0.4rem; padding:0.55rem 1.1rem; border-radius:50px; border:1.5px solid var(--border); background:var(--warm-white); color:var(--text-muted); text-decoration:none; font-size:0.82rem; font-weight:500; white-space:nowrap; transition:all 0.2s; flex-shrink:0; }
+  .cat-btn:hover,.cat-btn.active { background:var(--brown); border-color:var(--brown); color:var(--cream); }
+
+  .products-section { padding:1.25rem 0 3rem; }
+  .section-title { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--brown); margin-bottom:1.25rem; }
+  .products-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.25rem; }
+
+  .product-card { background:var(--warm-white); border:1px solid var(--border); border-radius:16px; overflow:hidden; text-decoration:none; color:inherit; display:block; transition:transform 0.22s,box-shadow 0.22s; animation:fadeUp 0.45s ease both; }
+  .product-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-lg); }
+  .product-img { width:100%; height:180px; background:linear-gradient(135deg,var(--brown-light),var(--gold)); display:flex; align-items:center; justify-content:center; font-size:3.5rem; overflow:hidden; }
+  .product-img img { width:100%; height:100%; object-fit:cover; }
+  .product-body { padding:1.1rem; }
+  .product-cat { font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.3rem; }
+  .product-name { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--brown); margin-bottom:0.4rem; }
+  .product-desc { font-size:0.8rem; color:var(--text-muted); margin-bottom:0.7rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .product-footer { display:flex; align-items:center; justify-content:space-between; }
+  .product-price { font-size:1.1rem; font-weight:700; color:var(--brown-mid); }
+  .product-price span { font-size:0.72rem; font-weight:400; color:var(--text-muted); }
+
+  .empty-state { text-align:center; padding:3rem 1.5rem; color:var(--text-muted); }
+  .empty-state .icon { font-size:3.5rem; margin-bottom:0.75rem; }
+  footer { background:var(--brown-dark); color:rgba(250,246,240,0.4); text-align:center; padding:1.5rem; font-size:0.8rem; }
+  footer span { color:var(--gold); }
+
+  @media(max-width:640px) {
+    .nav-links { display:none; }
+    .hamburger { display:block; }
+    .products-grid { grid-template-columns:repeat(2,1fr); gap:0.75rem; }
+    .product-img { height:140px; font-size:2.5rem; }
+    .product-body { padding:0.85rem; }
   }
-  .nav-brand { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--brown); text-decoration: none; }
-  .nav-brand span { color: var(--gold); }
-  .nav-links { display: flex; gap: 0.5rem; align-items: center; }
-  .nav-links a { padding: 0.5rem 1rem; border-radius: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: all 0.2s; }
-  .nav-links a:hover { background: var(--border); color: var(--brown); }
-
-  .hero { background: var(--brown-dark); padding: 5rem 2rem; text-align: center; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(212,168,83,0.25) 0%, transparent 60%); }
-  .hero-content { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
-  .hero-tag { color: var(--gold); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem; }
-  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem); color: var(--cream); font-weight: 700; line-height: 1.1; margin-bottom: 1rem; }
-  .hero-title em { color: var(--gold); font-style: italic; }
-  .hero-sub { color: rgba(250,246,240,0.7); font-size: 1rem; }
-
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
-
-  .cats-section { padding: 2rem 0 1rem; }
-  .cats-scroll { display: flex; gap: 0.75rem; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none; }
-  .cats-scroll::-webkit-scrollbar { display: none; }
-  .cat-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.25rem; border-radius: 50px; border: 1.5px solid var(--border); background: var(--warm-white); color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; white-space: nowrap; transition: all 0.2s; }
-  .cat-btn:hover, .cat-btn.active { background: var(--brown); border-color: var(--brown); color: var(--cream); transform: translateY(-1px); box-shadow: var(--shadow); }
-
-  .products-section { padding: 1.5rem 0 4rem; }
-  .section-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--brown); margin-bottom: 1.5rem; }
-  .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
-
-  .product-card {
-    background: var(--warm-white); border: 1px solid var(--border);
-    border-radius: 16px; overflow: hidden;
-    text-decoration: none; color: inherit; display: block;
-    transition: transform 0.25s, box-shadow 0.25s;
-    animation: fadeUp 0.5s ease both;
+  @media(max-width:380px) {
+    .products-grid { grid-template-columns:1fr; }
   }
-  .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-  .product-img { width: 100%; height: 200px; background: linear-gradient(135deg, var(--brown-light), var(--gold)); display: flex; align-items: center; justify-content: center; font-size: 4rem; overflow: hidden; }
-  .product-img img { width: 100%; height: 100%; object-fit: cover; }
-  .product-body { padding: 1.25rem; }
-  .product-cat { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
-  .product-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--brown); margin-bottom: 0.5rem; }
-  .product-desc { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .product-footer { display: flex; align-items: center; justify-content: space-between; }
-  .product-price { font-size: 1.2rem; font-weight: 700; color: var(--brown-mid); }
-  .product-price span { font-size: 0.75rem; font-weight: 400; color: var(--text-muted); }
-  .product-arrow { color: var(--gold); font-size: 1.1rem; }
-
-  .empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
-  .empty-state .icon { font-size: 4rem; margin-bottom: 1rem; }
-  footer { background: var(--brown-dark); color: rgba(250,246,240,0.5); text-align: center; padding: 2rem; font-size: 0.85rem; }
-  footer span { color: var(--gold); }
 </style>
+
+<div id="mobileMenu" class="mobile-menu">
+  <button class="mobile-menu-close" onclick="toggleMenu('mobileMenu')">✕</button>
+  <a href="/profile" onclick="toggleMenu('mobileMenu')">👤 Profil</a>
+  <a href="/qr" onclick="toggleMenu('mobileMenu')">📱 QR Kod</a>
+  <a href="/login" onclick="toggleMenu('mobileMenu')">Kirish</a>
+</div>
 
 <nav class="menu-nav">
   <a href="/menu" class="nav-brand">QR<span>Menu</span></a>
   <div class="nav-links">
+    <a href="/qr">📱 QR</a>
     <a href="/profile">👤 Profil</a>
-    <a href="/login" style="background:var(--brown);color:var(--cream);padding:0.5rem 1.25rem;border-radius:50px;">Kirish</a>
+    <a href="/login" style="background:var(--brown);color:var(--cream);padding:0.45rem 1.1rem;border-radius:50px;">Kirish</a>
   </div>
+  <button class="hamburger" onclick="toggleMenu('mobileMenu')">☰</button>
 </nav>
 
 <div class="hero">
   <div class="hero-content">
     <div class="hero-tag">✦ Bizning menyu</div>
     <h1 class="hero-title">Har bir taom — <em>san'at</em></h1>
-    <p class="hero-sub">Taomni bosib batafsil ma'lumot va feedback ko'ring</p>
+    <p class="hero-sub">Taomni bosib batafsil ma'lumot ko'ring</p>
   </div>
 </div>
 
@@ -82,38 +90,36 @@
       {{/each}}
     </div>
   </div>
-
   <div class="products-section">
     {{#if products.length}}
-      <div class="section-title">
-        {{#if selectedCategory}}Tanlangan taomlar{{else}}Barcha taomlar{{/if}}
-        <span style="font-size:0.9rem;font-weight:400;color:var(--text-muted);margin-left:0.75rem;">{{products.length}} ta</span>
-      </div>
-      <div class="products-grid">
-        {{#each products}}
-        <a href="/menu/{{_id}}" class="product-card" style="animation-delay:{{@index}}00ms">
-          <div class="product-img">
-            {{#if imageUrl}}<img src="{{imageUrl}}" alt="{{name}}">{{else}}🍜{{/if}}
+    <div class="section-title">
+      {{#if selectedCategory}}Tanlangan taomlar{{else}}Barcha taomlar{{/if}}
+      <span style="font-size:0.85rem;font-weight:400;color:var(--text-muted);margin-left:0.5rem;">{{products.length}} ta</span>
+    </div>
+    <div class="products-grid">
+      {{#each products}}
+      <a href="/menu/{{_id}}" class="product-card" style="animation-delay:{{@index}}0ms">
+        <div class="product-img">
+          {{#if imageUrl}}<img src="{{imageUrl}}" alt="{{name}}">{{else}}🍜{{/if}}
+        </div>
+        <div class="product-body">
+          <div class="product-cat">{{category.name}}</div>
+          <div class="product-name">{{name}}</div>
+          {{#if description}}<div class="product-desc">{{description}}</div>{{/if}}
+          <div class="product-footer">
+            <div class="product-price">{{price}} <span>so'm</span></div>
+            <span style="color:var(--gold);">→</span>
           </div>
-          <div class="product-body">
-            <div class="product-cat">{{category.name}}</div>
-            <div class="product-name">{{name}}</div>
-            {{#if description}}<div class="product-desc">{{description}}</div>{{/if}}
-            <div class="product-footer">
-              <div class="product-price">{{price}} <span>so'm</span></div>
-              <div class="product-arrow">→</div>
-            </div>
-          </div>
-        </a>
-        {{/each}}
-      </div>
+        </div>
+      </a>
+      {{/each}}
+    </div>
     {{else}}
-      <div class="empty-state">
-        <div class="icon">🍽</div>
-        <p>Hozircha taomlar yo'q</p>
-      </div>
+    <div class="empty-state">
+      <div class="icon">🍽</div>
+      <p>Hozircha taomlar yo'q</p>
+    </div>
     {{/if}}
   </div>
 </div>
-
-<footer>© 2025 <span>QRMenu</span> — Barcha huquqlar himoyalangan</footer>
+<footer>© 2025 <span>QRMenu</span></footer>

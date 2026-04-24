@@ -22,7 +22,7 @@ export const ErrorHandlerMiddleware = (err, req, res, __) => {
 
   const redirectTo = API_TO_VIEW[urlPath] || urlPath;
 
-  // reset-password uchun userId va signed saqlash
+  
   if (urlPath === "/api/auth/reset-password") {
     const { userId, signed } = req.query;
     const extra = userId ? `&userId=${userId}&signed=${signed}` : "";

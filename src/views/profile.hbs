@@ -1,97 +1,58 @@
 <style>
-  .page { min-height: 100vh; }
-  .profile-hero {
-    background: var(--brown-dark);
-    padding: 3rem 2rem 6rem;
-    position: relative; overflow: hidden;
-  }
-  .profile-hero::before {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 70% 50%, rgba(212,168,83,0.15) 0%, transparent 60%);
-  }
-  .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
-  .profile-card {
-    background: var(--warm-white);
-    border-radius: 24px;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-lg);
-    margin-top: -4rem;
-    padding: 2.5rem;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 2rem;
-    align-items: start;
-  }
-  .avatar {
-    width: 96px; height: 96px;
-    background: linear-gradient(135deg, var(--brown), var(--gold));
-    border-radius: 24px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2.5rem;
-    flex-shrink: 0;
-  }
-  .profile-name { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--brown); }
-  .profile-email { color: var(--text-muted); margin: 0.25rem 0 1rem; }
-  .badge {
-    display: inline-block;
-    padding: 0.25rem 0.9rem;
-    border-radius: 50px;
-    font-size: 0.75rem; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.05em;
-  }
-  .badge-admin { background: rgba(212,168,83,0.2); color: var(--gold); border: 1px solid rgba(212,168,83,0.4); }
-  .badge-user { background: rgba(107,58,31,0.1); color: var(--brown-mid); border: 1px solid rgba(107,58,31,0.2); }
-  .profile-actions { margin-top: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
-  .nav-bar {
-    background: rgba(250,246,240,0.95); backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem; display: flex; align-items: center;
-    justify-content: space-between; height: 64px;
-    position: sticky; top: 0; z-index: 100;
-  }
-  .nav-brand { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--brown); text-decoration: none; }
-  .nav-brand span { color: var(--gold); }
-  .nav-links { display: flex; gap: 0.5rem; }
-  .nav-links a { padding: 0.5rem 1rem; border-radius: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: all 0.2s; }
-  .nav-links a:hover { background: var(--border); color: var(--brown); }
-  .main-content { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; }
-  @media (max-width: 600px) {
-    .profile-card { grid-template-columns: 1fr; }
+  .page-nav { background:rgba(250,246,240,0.95); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); padding:0 1.5rem; display:flex; align-items:center; justify-content:space-between; height:60px; position:sticky; top:0; z-index:100; }
+  .nav-brand { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; color:var(--brown); text-decoration:none; }
+  .nav-brand span { color:var(--gold); }
+  .nav-links { display:flex; gap:0.25rem; }
+  .nav-links a { padding:0.45rem 0.9rem; border-radius:8px; color:var(--text-muted); text-decoration:none; font-size:0.875rem; font-weight:500; transition:all 0.2s; }
+  .nav-links a:hover { background:var(--border); color:var(--brown); }
+
+  .profile-hero { background:var(--brown-dark); padding:2.5rem 1.5rem 5rem; position:relative; overflow:hidden; }
+  .profile-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 70% 50%, rgba(212,168,83,0.15) 0%, transparent 60%); }
+
+  .container { max-width:860px; margin:0 auto; padding:0 1.25rem; }
+
+  .profile-card { background:var(--warm-white); border:1px solid var(--border); border-radius:20px; box-shadow:var(--shadow-lg); margin-top:-3.5rem; padding:2rem; position:relative; z-index:1; display:grid; grid-template-columns:auto 1fr; gap:1.75rem; align-items:start; }
+  .avatar { width:80px; height:80px; background:linear-gradient(135deg,var(--brown),var(--gold)); border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:2.2rem; flex-shrink:0; }
+  .profile-name { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--brown); }
+  .profile-email { color:var(--text-muted); font-size:0.875rem; margin:0.2rem 0 0.75rem; }
+  .badge { display:inline-block; padding:0.2rem 0.8rem; border-radius:50px; font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+  .badge-admin { background:rgba(212,168,83,0.2); color:var(--gold); border:1px solid rgba(212,168,83,0.4); }
+  .badge-user { background:rgba(107,58,31,0.1); color:var(--brown-mid); border:1px solid rgba(107,58,31,0.2); }
+  .profile-actions { margin-top:1.25rem; display:flex; gap:0.6rem; flex-wrap:wrap; }
+
+  @media(max-width:600px) {
+    .profile-card { grid-template-columns:1fr; gap:1rem; }
+    .avatar { width:64px; height:64px; font-size:1.8rem; }
   }
 </style>
 
-<nav class="nav-bar">
+<nav class="page-nav">
   <a href="/menu" class="nav-brand">QR<span>Menu</span></a>
   <div class="nav-links">
-    <a href="/menu">Menu</a>
-    <a href="/feedback">Feedback</a>
-    {{#if (eq user.role "ADMIN")}}<a href="/admin">Admin</a>{{/if}}
-    <a href="/api/auth/logout" style="background:var(--brown);color:var(--cream);border-radius:50px;">Chiqish</a>
+    <a href="/menu">🍽 Menu</a>
+    <a href="/api/auth/logout" style="background:var(--brown);color:var(--cream);padding:0.45rem 1.1rem;border-radius:50px;">Chiqish</a>
   </div>
 </nav>
 
-<div class="page">
-  <div class="profile-hero">
-    <div class="container">
-      <p style="color:var(--gold-light); font-size:0.9rem;">Mening profilim</p>
-    </div>
+<div class="profile-hero">
+  <div class="container">
+    <p style="color:var(--gold-light);font-size:0.85rem;position:relative;z-index:1;">👤 Mening profilim</p>
   </div>
-  <div class="main-content">
-    <div class="profile-card fade-up">
-      <div class="avatar">👤</div>
-      <div>
-        <div class="profile-name">{{user.name}}</div>
-        <div class="profile-email">{{user.email}}</div>
-        <span class="badge {{#if (eq user.role 'ADMIN')}}badge-admin{{else}}badge-user{{/if}}">
-          {{user.role}}
-        </span>
-        <div class="profile-actions">
-          <a href="/menu" class="btn btn-primary">🍽 Menuga o'tish</a>
-          <a href="/feedback" class="btn btn-outline">💬 Feedback qoldirish</a>
-          {{#if (eq user.role "ADMIN")}}
-          <a href="/admin" class="btn btn-gold">⚙️ Admin panel</a>
-          {{/if}}
-        </div>
+</div>
+
+<div class="container">
+  <div class="profile-card fade-up">
+    <div class="avatar">👤</div>
+    <div>
+      <div class="profile-name">{{user.name}}</div>
+      <div class="profile-email">{{user.email}}</div>
+      <span class="badge {{#if (eq user.role 'ADMIN')}}badge-admin{{else}}badge-user{{/if}}">{{user.role}}</span>
+      <div class="profile-actions">
+        <a href="/menu" class="btn btn-primary">🍽 Menuga o'tish</a>
+        {{#if (eq user.role "ADMIN")}}
+        <a href="/admin" class="btn btn-gold">⚙️ Admin panel</a>
+        {{/if}}
+        <a href="/api/auth/logout" class="btn btn-outline">Chiqish</a>
       </div>
     </div>
   </div>

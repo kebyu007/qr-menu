@@ -1,5 +1,4 @@
 import { Router } from "express";
-import feedbackController from "../controllers/feedback.controller.js";
 import { Protected } from "../middlewares/protected.middleware.js";
 import { Roles } from "../middlewares/roles.middleware.js";
 import { ValidationMiddleware } from "../middlewares/validation.middleware.js";

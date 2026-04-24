@@ -25,7 +25,6 @@ class AuthController {
 
       const existingUser = await this.#_UserModel.findOne({ email });
       if (existingUser) {
-        // throw new ConflictException(`Given email: ${email} already exists`);
         return res.render("login", {
           error: `Given email: ${email} already exists`,
         });
@@ -33,7 +32,6 @@ class AuthController {
 
       const hPass = await this.#_hashPass(password);
 
-      // ✅ create ishlatildi (insertOne async emas edi, _id ham yo'q edi)
       const newUser = await this.#_UserModel.create({
         name,
         age,
@@ -75,6 +73,7 @@ class AuthController {
     try {
       const { email, password } = req.body;
 
+
       const existingUser = await this.#_UserModel.findOne({ email });
 
       if (!existingUser) {
@@ -113,10 +112,7 @@ class AuthController {
         path: "/",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
-      console.log({
-        success: true,
-        data: { accessToken, refreshToken },
-      });
+
       res.redirect("/profile");
     } catch (error) {
       next(error);
@@ -147,7 +143,7 @@ class AuthController {
       if (!existing) throw new NotFoundException("User not found");
 
       const signedUrl = signature.sign(
-        `${BASE_URL}/reset-password?userId=${existing._id}`, // ✅ /api/auth yo'q
+        `${BASE_URL}/reset-password?userId=${existing._id}`,
         { ttl: 300 },
       );
       sendEmail(
@@ -168,7 +164,6 @@ class AuthController {
       const { userId } = req.query;
       const { password } = req.body;
 
-      // ✅ updateOne filter va update ajratildi
       await this.#_UserModel.updateOne(
         { _id: userId },
         { password: await this.#_hashPass(password) },
@@ -181,7 +176,6 @@ class AuthController {
     }
   };
 
-  // ✅ /api/auth/me endpoint uchun
   me = async (req, res, next) => {
     try {
       const user = await this.#_UserModel
@@ -232,4 +226,3 @@ class AuthController {
 }
 
 export default new AuthController();
-// Logout — buni class ichiga qo'shish kerak edi, shuning uchun alohida export qilamiz

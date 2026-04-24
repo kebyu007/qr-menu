@@ -1,134 +1,112 @@
 <style>
-  .admin-layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
-  .sidebar { background: var(--brown-dark); padding: 2rem 1rem; position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; overflow-y: auto; }
-  .sidebar-brand { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--cream); padding: 0 0.75rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1.5rem; }
-  .sidebar-brand span { color: var(--gold); }
-  .sidebar-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(250,246,240,0.35); padding: 0 0.75rem; margin-bottom: 0.5rem; }
-  .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 0.75rem; border-radius: 10px; color: rgba(250,246,240,0.65); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: all 0.2s; margin-bottom: 0.2rem; }
-  .sidebar-link:hover { background: rgba(255,255,255,0.08); color: var(--cream); }
-  .sidebar-link.active { background: rgba(212,168,83,0.15); color: var(--gold); }
-  .sidebar-link .icon { font-size: 1.1rem; width: 22px; text-align: center; }
-  .sidebar-bottom { margin-top: auto; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
-  .admin-main { background: var(--cream); }
-  .admin-topbar { background: var(--warm-white); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
-  .topbar-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--brown); font-weight: 700; }
-  .admin-content { padding: 2rem; }
+  .admin-layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+  .sidebar{background:var(--brown-dark);padding:1.5rem 1rem;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;overflow-y:auto;}
+  .sidebar-brand{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--cream);padding:0 0.75rem 1.5rem;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:1.25rem;}
+  .sidebar-brand span{color:var(--gold);}
+  .sidebar-label{font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:rgba(250,246,240,0.35);padding:0 0.75rem;margin-bottom:0.4rem;}
+  .sidebar-link{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0.75rem;border-radius:10px;color:rgba(250,246,240,0.65);text-decoration:none;font-size:0.875rem;font-weight:500;transition:all 0.2s;margin-bottom:0.15rem;}
+  .sidebar-link:hover{background:rgba(255,255,255,0.08);color:var(--cream);}
+  .sidebar-link.active{background:rgba(212,168,83,0.15);color:var(--gold);}
+  .sidebar-link .icon{font-size:1rem;width:20px;text-align:center;}
+  .sidebar-bottom{margin-top:auto;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,0.1);}
+  .admin-main{background:var(--cream);}
+  .admin-topbar{background:var(--warm-white);border-bottom:1px solid var(--border);padding:0 1.5rem;height:60px;display:flex;align-items:center;gap:0.75rem;position:sticky;top:0;z-index:10;}
+  .topbar-title{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--brown);font-weight:700;}
+  .hamburger-admin{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--brown);}
+  .admin-content{padding:1.5rem;}
 
-  .add-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; }
-  .add-card-title { font-weight: 600; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.25rem; }
-  .add-form-grid { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1rem; align-items: flex-end; }
+  .add-card{background:var(--warm-white);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem;}
+  .add-card-title{font-weight:600;font-size:0.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:1rem;}
+  .add-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:0.75rem;}
 
-  .table-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
-  table { width: 100%; border-collapse: collapse; }
-  thead { background: var(--cream); }
-  th { padding: 0.9rem 1.25rem; text-align: left; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); border-bottom: 1px solid var(--border); }
-  td { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--cream); }
-  .prod-img { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; background: linear-gradient(135deg, var(--brown-light), var(--gold)); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
-  .actions { display: flex; gap: 0.5rem; }
-  .price-badge { background: rgba(212,168,83,0.15); color: var(--brown-mid); padding: 0.25rem 0.75rem; border-radius: 50px; font-weight: 600; font-size: 0.85rem; }
-  .empty { text-align: center; padding: 3rem; color: var(--text-muted); }
+  .table-wrap{background:var(--warm-white);border:1px solid var(--border);border-radius:14px;overflow:hidden;overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;min-width:560px;}
+  thead{background:var(--cream);}
+  th{padding:0.8rem 1rem;text-align:left;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);border-bottom:1px solid var(--border);white-space:nowrap;}
+  td{padding:0.9rem 1rem;border-bottom:1px solid var(--border);font-size:0.875rem;}
+  tr:last-child td{border-bottom:none;}
+  tr:hover td{background:var(--cream);}
+  .prod-img{width:40px;height:40px;border-radius:9px;object-fit:cover;background:linear-gradient(135deg,var(--brown-light),var(--gold));display:flex;align-items:center;justify-content:center;font-size:1.2rem;overflow:hidden;flex-shrink:0;}
+  .actions{display:flex;gap:0.4rem;}
+  .price-badge{background:rgba(212,168,83,0.15);color:var(--brown-mid);padding:0.2rem 0.65rem;border-radius:50px;font-weight:600;font-size:0.8rem;white-space:nowrap;}
+  .empty{text-align:center;padding:2.5rem;color:var(--text-muted);font-size:0.875rem;}
 
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(28,16,8,0.5); z-index: 200; align-items: center; justify-content: center; }
-  .modal-overlay.open { display: flex; }
-  .modal { background: var(--warm-white); border-radius: 20px; padding: 2rem; width: 100%; max-width: 480px; box-shadow: var(--shadow-lg); animation: fadeUp 0.3s ease; }
-  .modal-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--brown); margin-bottom: 1.5rem; }
-  .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(28,16,8,0.55);z-index:200;align-items:center;justify-content:center;padding:1rem;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--warm-white);border-radius:18px;padding:1.75rem;width:100%;max-width:460px;box-shadow:var(--shadow-lg);animation:fadeUp 0.3s ease;max-height:90vh;overflow-y:auto;}
+  .modal-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--brown);margin-bottom:1.25rem;}
+  .modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
+  .modal-actions{display:flex;gap:0.6rem;margin-top:1.25rem;}
 
-  @media (max-width: 1024px) { .add-form-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 768px) { .admin-layout { grid-template-columns: 1fr; } .sidebar { display: none; } .add-form-grid { grid-template-columns: 1fr; } }
+  @media(max-width:768px){
+    .admin-layout{grid-template-columns:1fr;}
+    .sidebar{display:none;position:fixed;width:260px;height:100vh;z-index:300;top:0;left:0;transform:translateX(-100%);transition:transform 0.3s;}
+    .sidebar.open{display:flex;transform:translateX(0);}
+    .hamburger-admin{display:block;}
+    .admin-content{padding:1rem;}
+    .add-grid{grid-template-columns:1fr;}
+    .modal-grid{grid-template-columns:1fr;}
+  }
 </style>
 
 <div class="admin-layout">
-  <aside class="sidebar">
+  <aside class="sidebar" id="adminSidebar">
     <div class="sidebar-brand">QR<span>Menu</span></div>
     <div class="sidebar-label">Asosiy</div>
     <a href="/admin" class="sidebar-link"><span class="icon">📊</span> Dashboard</a>
     <a href="/admin/categories" class="sidebar-link"><span class="icon">📂</span> Kategoriyalar</a>
     <a href="/admin/products" class="sidebar-link active"><span class="icon">🍽</span> Taomlar</a>
     <a href="/admin/feedback" class="sidebar-link"><span class="icon">💬</span> Feedbacklar</a>
+    <a href="/admin/qr" class="sidebar-link"><span class="icon">📱</span> QR Kodlar</a>
     <div class="sidebar-bottom">
       <a href="/menu" class="sidebar-link"><span class="icon">👁</span> Menuni ko'rish</a>
       <a href="/profile" class="sidebar-link"><span class="icon">👤</span> Profil</a>
+      <a href="/api/auth/logout" class="sidebar-link"><span class="icon">🚪</span> Chiqish</a>
     </div>
   </aside>
 
   <div class="admin-main">
     <div class="admin-topbar">
+      <button class="hamburger-admin" onclick="document.getElementById('adminSidebar').classList.toggle('open')">☰</button>
       <div class="topbar-title">Taomlar</div>
     </div>
-
     <div class="admin-content">
-      {{#if error}}<div class="alert alert-error" style="margin-bottom:1.5rem;">{{error}}</div>{{/if}}
-
       <div class="add-card">
         <div class="add-card-title">+ Yangi taom</div>
         <form action="/admin/products" method="POST" enctype="multipart/form-data">
-          <div class="add-form-grid" style="grid-template-columns: 2fr 1fr 1fr auto;">
-            <div class="form-group" style="margin:0">
-              <label class="form-label">Nom</label>
-              <input type="text" name="name" class="form-control" placeholder="Taom nomi" required>
-            </div>
-            <div class="form-group" style="margin:0">
-              <label class="form-label">Narx (so'm)</label>
-              <input type="number" name="price" class="form-control" placeholder="25000" min="0" required>
-            </div>
-            <div class="form-group" style="margin:0">
-              <label class="form-label">Kategoriya</label>
+          <div class="add-grid">
+            <div class="form-group" style="margin:0"><label class="form-label">Nom</label><input type="text" name="name" class="form-control" placeholder="Taom nomi" required></div>
+            <div class="form-group" style="margin:0"><label class="form-label">Narx (so'm)</label><input type="number" name="price" class="form-control" placeholder="25000" min="0" required></div>
+            <div class="form-group" style="margin:0"><label class="form-label">Kategoriya</label>
               <select name="category" class="form-control" required>
                 <option value="">Tanlang</option>
-                {{#each categories}}
-                <option value="{{_id}}">{{name}}</option>
-                {{/each}}
+                {{#each categories}}<option value="{{_id}}">{{name}}</option>{{/each}}
               </select>
             </div>
-            <div class="form-group" style="margin:0">
-              <label class="form-label">Rasm</label>
-              <input type="file" name="image" class="form-control" accept="image/*">
-            </div>
           </div>
-          <div class="form-group" style="margin-top:0.75rem;">
-              <label class="form-label">Tavsif (ixtiyoriy)</label>
-              <textarea name="description" class="form-control" rows="2" placeholder="Taom haqida qisqa ma'lumot..."></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary" style="margin-top:0.5rem;">Qo'shish</button>
+          <div class="form-group" style="margin-top:0.75rem;"><label class="form-label">Tavsif (ixtiyoriy)</label><textarea name="description" class="form-control" rows="2" placeholder="Taom haqida qisqa ma'lumot..." style="min-height:70px;"></textarea></div>
+          <div class="form-group"><label class="form-label">Rasm</label><input type="file" name="image" class="form-control" accept="image/*"></div>
+          <button type="submit" class="btn btn-primary">Qo'shish</button>
         </form>
       </div>
 
-      <div class="table-card">
+      <div class="table-wrap">
         <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Rasm</th>
-              <th>Nom</th>
-              <th>Kategoriya</th>
-              <th>Narx</th>
-              <th>Amallar</th>
-            </tr>
-          </thead>
+          <thead><tr><th>#</th><th>Rasm</th><th>Nom</th><th>Kategoriya</th><th>Narx</th><th>Amallar</th></tr></thead>
           <tbody>
             {{#each products}}
             <tr>
               <td style="color:var(--text-muted);">{{add @index 1}}</td>
-              <td>
-                <div class="prod-img">
-                  {{#if imageUrl}}<img src="{{imageUrl}}" alt="{{name}}" style="width:100%;height:100%;border-radius:10px;object-fit:cover;">{{else}}🍜{{/if}}
-                </div>
-              </td>
+              <td><div class="prod-img">{{#if imageUrl}}<img src="{{imageUrl}}" alt="{{name}}" style="width:100%;height:100%;object-fit:cover;">{{else}}🍜{{/if}}</div></td>
               <td style="font-weight:600;">{{name}}</td>
               <td style="color:var(--text-muted);">{{category.name}}</td>
               <td><span class="price-badge">{{price}} so'm</span></td>
-              <td>
-                <div class="actions">
-                  <button onclick="openEdit('{{_id}}','{{name}}','{{price}}','{{category._id}}')" class="btn btn-outline btn-sm">✏️</button>
-                  <form action="/admin/products/{{_id}}/delete" method="POST" onsubmit="return confirm('O\'chirishni tasdiqlaysizmi?')">
-                    <button type="submit" class="btn btn-danger btn-sm">🗑</button>
-                  </form>
-                </div>
-              </td>
+              <td><div class="actions">
+                <button onclick="openEdit('{{_id}}','{{name}}','{{price}}','{{description}}','{{category._id}}')" class="btn btn-outline btn-sm">✏️</button>
+                <form action="/admin/products/{{_id}}/delete" method="POST" onsubmit="return confirm('O\'chirilsinmi?')" style="margin:0;">
+                  <button type="submit" class="btn btn-danger btn-sm">🗑</button>
+                </form>
+              </div></td>
             </tr>
             {{else}}
             <tr><td colspan="6" class="empty">Taomlar yo'q</td></tr>
@@ -145,43 +123,32 @@
     <div class="modal-title">Taomni tahrirlash</div>
     <form id="editForm" method="POST" enctype="multipart/form-data">
       <div class="modal-grid">
-        <div class="form-group">
-          <label class="form-label">Nom</label>
-          <input type="text" name="name" id="editName" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Narx</label>
-          <input type="number" name="price" id="editPrice" class="form-control" required>
-        </div>
+        <div class="form-group"><label class="form-label">Nom</label><input type="text" name="name" id="editName" class="form-control" required></div>
+        <div class="form-group"><label class="form-label">Narx</label><input type="number" name="price" id="editPrice" class="form-control" required></div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Kategoriya</label>
+      <div class="form-group"><label class="form-label">Kategoriya</label>
         <select name="category" id="editCategory" class="form-control">
-          {{#each categories}}
-          <option value="{{_id}}">{{name}}</option>
-          {{/each}}
+          {{#each categories}}<option value="{{_id}}">{{name}}</option>{{/each}}
         </select>
       </div>
-      <div class="form-group">
-        <label class="form-label">Yangi rasm</label>
-        <input type="file" name="image" class="form-control" accept="image/*">
-      </div>
+      <div class="form-group"><label class="form-label">Tavsif</label><textarea name="description" id="editDesc" class="form-control" rows="2" style="min-height:70px;"></textarea></div>
+      <div class="form-group"><label class="form-label">Yangi rasm</label><input type="file" name="image" class="form-control" accept="image/*"></div>
       <div class="modal-actions">
         <button type="submit" class="btn btn-primary">Saqlash</button>
-        <button type="button" onclick="closeEdit()" class="btn btn-outline">Bekor qilish</button>
+        <button type="button" onclick="closeEdit()" class="btn btn-outline">Bekor</button>
       </div>
     </form>
   </div>
 </div>
-
 <script>
-  function openEdit(id, name, price, categoryId) {
-    document.getElementById('editForm').action = `/admin/products/${id}/update`;
-    document.getElementById('editName').value = name;
-    document.getElementById('editPrice').value = price;
-    document.getElementById('editCategory').value = categoryId;
+  function openEdit(id,name,price,desc,catId){
+    document.getElementById('editForm').action=`/admin/products/${id}/update`;
+    document.getElementById('editName').value=name;
+    document.getElementById('editPrice').value=price;
+    document.getElementById('editDesc').value=desc||'';
+    document.getElementById('editCategory').value=catId;
     document.getElementById('editModal').classList.add('open');
   }
-  function closeEdit() { document.getElementById('editModal').classList.remove('open'); }
-  document.getElementById('editModal').addEventListener('click', function(e) { if (e.target === this) closeEdit(); });
+  function closeEdit(){document.getElementById('editModal').classList.remove('open');}
+  document.getElementById('editModal').addEventListener('click',function(e){if(e.target===this)closeEdit();});
 </script>

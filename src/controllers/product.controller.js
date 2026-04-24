@@ -13,7 +13,7 @@ class ProductController {
     this.#_CategoryModel = Category;
   }
 
-  // Admin: barcha productlarni ko'rish
+  
   getProducts = async (req, res, next) => {
     try {
       const { category } = req.query;
@@ -36,7 +36,7 @@ class ProductController {
     }
   };
 
-  // Public: menu sahifasi
+  
   getMenu = async (req, res, next) => {
     try {
       const categories = await this.#_CategoryModel.find({ deletedAt: null }).lean();
@@ -56,7 +56,7 @@ class ProductController {
     }
   };
 
-  // Public: bitta product sahifasi (feedback bilan)
+  
   getProductDetail = async (req, res, next) => {
     try {
       const { id } = req.params;

@@ -1,0 +1,189 @@
+<style>
+  .admin-layout { display:grid; grid-template-columns:240px 1fr; min-height:100vh; }
+  .sidebar { background:var(--brown-dark); padding:2rem 1rem; position:sticky; top:0; height:100vh; display:flex; flex-direction:column; overflow-y:auto; }
+  .sidebar-brand { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; color:var(--cream); padding:0 0.75rem 2rem; border-bottom:1px solid rgba(255,255,255,0.1); margin-bottom:1.5rem; }
+  .sidebar-brand span { color:var(--gold); }
+  .sidebar-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; color:rgba(250,246,240,0.35); padding:0 0.75rem; margin-bottom:0.5rem; }
+  .sidebar-link { display:flex; align-items:center; gap:0.75rem; padding:0.7rem 0.75rem; border-radius:10px; color:rgba(250,246,240,0.65); text-decoration:none; font-size:0.9rem; font-weight:500; transition:all 0.2s; margin-bottom:0.2rem; }
+  .sidebar-link:hover { background:rgba(255,255,255,0.08); color:var(--cream); }
+  .sidebar-link.active { background:rgba(212,168,83,0.15); color:var(--gold); }
+  .sidebar-link .icon { font-size:1.1rem; width:22px; text-align:center; }
+  .sidebar-bottom { margin-top:auto; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,0.1); }
+  .admin-main { background:var(--cream); min-height:100vh; }
+  .admin-topbar { background:var(--warm-white); border-bottom:1px solid var(--border); padding:0 2rem; height:64px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:10; }
+  .topbar-title { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--brown); font-weight:700; }
+  .admin-content { padding:2rem; }
+
+  /* Main QR */
+  .main-qr-card {
+    background: var(--brown-dark);
+    border-radius: 24px;
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    position: relative; overflow: hidden;
+  }
+  .main-qr-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(212,168,83,0.15) 0%, transparent 60%);
+  }
+  .main-qr-card > * { position: relative; z-index: 1; }
+  .qr-img-wrap {
+    background: var(--cream); border-radius: 16px;
+    padding: 1rem; box-shadow: var(--shadow-lg);
+  }
+  .qr-img-wrap img { width: 220px; height: 220px; display: block; }
+  .main-qr-info { color: var(--cream); }
+  .main-qr-tag { color: var(--gold); font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.75rem; }
+  .main-qr-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; margin-bottom: 0.75rem; line-height: 1.2; }
+  .main-qr-sub { color: rgba(250,246,240,0.65); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.6; }
+  .qr-url { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 0.6rem 1rem; font-size: 0.85rem; color: var(--gold-light); font-family: monospace; margin-bottom: 1.5rem; word-break: break-all; }
+  .qr-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+  /* Section */
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--brown); }
+
+  /* QR Grid */
+  .qr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
+  .qr-card {
+    background: var(--warm-white); border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.5rem;
+    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: fadeUp 0.4s ease both;
+  }
+  .qr-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .qr-card-img { background: var(--cream); border-radius: 10px; padding: 0.6rem; border: 1px solid var(--border); }
+  .qr-card-img img { width: 140px; height: 140px; }
+  .qr-card-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--brown); text-align: center; }
+  .qr-card-sub { font-size: 0.78rem; color: var(--text-muted); text-align: center; }
+  .qr-card-actions { display: flex; gap: 0.5rem; width: 100%; }
+  .qr-card-actions .btn { flex: 1; font-size: 0.78rem; padding: 0.45rem 0.75rem; }
+
+  /* Print styles */
+  @media print {
+    .sidebar, .admin-topbar, .qr-actions, .qr-card-actions, .no-print { display: none !important; }
+    .admin-layout { grid-template-columns: 1fr; }
+    .admin-content { padding: 0; }
+    .main-qr-card { background: white; color: black; border: 2px solid #333; }
+    .main-qr-info { color: black; }
+    .qr-grid { grid-template-columns: repeat(3, 1fr); }
+    .qr-card { break-inside: avoid; }
+  }
+
+  @media (max-width: 1024px) {
+    .main-qr-card { grid-template-columns: 1fr; text-align: center; }
+    .qr-img-wrap img { width: 180px; height: 180px; }
+    .qr-actions { justify-content: center; }
+  }
+  @media (max-width: 768px) {
+    .admin-layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .admin-content { padding: 1rem; }
+    .qr-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+    .main-qr-card { padding: 1.5rem; }
+  }
+  @media (max-width: 480px) {
+    .qr-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">QR<span>Menu</span></div>
+    <div class="sidebar-label">Asosiy</div>
+    <a href="/admin" class="sidebar-link"><span class="icon">📊</span> Dashboard</a>
+    <a href="/admin/categories" class="sidebar-link"><span class="icon">📂</span> Kategoriyalar</a>
+    <a href="/admin/products" class="sidebar-link"><span class="icon">🍽</span> Taomlar</a>
+    <a href="/admin/feedback" class="sidebar-link"><span class="icon">💬</span> Feedbacklar</a>
+    <a href="/admin/qr" class="sidebar-link active"><span class="icon">📱</span> QR Kodlar</a>
+    <div class="sidebar-bottom">
+      <a href="/menu" class="sidebar-link"><span class="icon">👁</span> Menuni ko'rish</a>
+      <a href="/profile" class="sidebar-link"><span class="icon">👤</span> Profil</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <div class="topbar-title">QR Kodlar</div>
+      <button onclick="window.print()" class="btn btn-outline btn-sm no-print">🖨 Chop etish</button>
+    </div>
+
+    <div class="admin-content">
+      <!-- Asosiy menu QR -->
+      <div class="main-qr-card">
+        <div class="qr-img-wrap">
+          <img src="{{menuQr}}" alt="Menu QR">
+        </div>
+        <div class="main-qr-info">
+          <div class="main-qr-tag">✦ Asosiy QR Kod</div>
+          <div class="main-qr-title">Restoran Menyu QR</div>
+          <div class="main-qr-sub">Ushbu QR kodni skanerlash orqali mijozlar login qilmasdan to'liq menyu ro'yxatini ko'rishlari mumkin.</div>
+          <div class="qr-url">{{menuUrl}}</div>
+          <div class="qr-actions">
+            <a href="{{menuUrl}}" target="_blank" class="btn btn-gold">👁 Ko'rish</a>
+            <button onclick="downloadQR('{{menuQr}}', 'menu-qr')" class="btn btn-outline" style="color:var(--cream);border-color:rgba(255,255,255,0.3);">⬇ Yuklab olish</button>
+            <button onclick="window.print()" class="btn btn-outline" style="color:var(--cream);border-color:rgba(255,255,255,0.3);">🖨 Chop etish</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kategoriyalar QR -->
+      {{#if categoryQrs.length}}
+      <div class="section-header">
+        <div class="section-title">Kategoriyalar bo'yicha QR</div>
+        <span style="font-size:0.85rem;color:var(--text-muted);">{{categoryQrs.length}} ta</span>
+      </div>
+      <div class="qr-grid">
+        {{#each categoryQrs}}
+        <div class="qr-card" style="animation-delay:{{@index}}0ms">
+          <div class="qr-card-img">
+            <img src="{{qr}}" alt="{{name}} QR">
+          </div>
+          <div class="qr-card-name">{{name}}</div>
+          <div class="qr-card-sub">Kategoriya sahifasi</div>
+          <div class="qr-card-actions no-print">
+            <button onclick="downloadQR('{{qr}}','cat-{{name}}')" class="btn btn-outline btn-sm">⬇</button>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+
+      <!-- Taomlar QR -->
+      {{#if productQrs.length}}
+      <div class="section-header">
+        <div class="section-title">Taomlar bo'yicha QR</div>
+        <span style="font-size:0.85rem;color:var(--text-muted);">{{productQrs.length}} ta</span>
+      </div>
+      <div class="qr-grid">
+        {{#each productQrs}}
+        <div class="qr-card" style="animation-delay:{{@index}}0ms">
+          <div class="qr-card-img">
+            <img src="{{qr}}" alt="{{name}} QR">
+          </div>
+          <div class="qr-card-name">{{name}}</div>
+          <div class="qr-card-sub" style="color:var(--gold);">{{price}} so'm</div>
+          <div class="qr-card-actions no-print">
+            <button onclick="downloadQR('{{qr}}','product-{{name}}')" class="btn btn-outline btn-sm">⬇</button>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+    </div>
+  </div>
+</div>
+
+<script>
+  function downloadQR(dataUrl, name) {
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = `${name}-qr.png`;
+    a.click();
+  }
+</script>

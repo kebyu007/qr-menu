@@ -14,8 +14,6 @@ export const Protected = (isProtected) => {
     }
 
     const token = req.cookies?.accessToken;
-    console.log("🔍 Cookies:", req.cookies);
-    console.log("🔍 AccessToken:", token);
     if (!token) return res.redirect("/");
 
     try {
